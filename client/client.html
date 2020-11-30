@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <!--文字コード（文字化け防止、utf-8　は推奨されているコード -->
+    <meta charset="utf-8">
+    <!--Title（ブラウザのタブに表示される）-->
+    <title>Booking Ticket</title>
+    <!--<a href=""></a>-->
+    <!--CSSからの読み込み宣言-->
+    <link rel="stylesheet" href="style.css" >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+   
+</head>
+
+
+<body>
+  <div id="title">
+    <h2>Flights Information</h2>
+  </div>
+    <!-- dynamic table to display todo list -->
+    <table class="table mt-5 text-center" id="reserve-list">
+      <thead>
+        <tr>
+          <th>Flight ID</th>
+          <th>Departure</th>
+          <th>Arrival</th>
+          <th>Departing_airport</th> 
+          <th>stop1_airport</th>
+          <th>stop2_airport</th>
+          <th>Arrival_airport</th>
+          <th>seats_available</th>       
+          <th>status</th>
+        </tr>
+      </thead>
+      <!-- add todos in tbody by modying the HTML in main.js -->
+      <tbody id="flight-table">
+      </tbody>
+    </table>
+    <!-- End of dynamic table -->
+
+
+  <!-- Title -->
+  <div id="title">
+    <h2>Reservation</h2>
+  </div>
+
+  <!-- todo insert input box and add button -->
+   <div  id="input-reserve"> 
+    <input type="text" class="form-control" placeholder="Flight ID" id="flightID">
+    <input type="text" class="form-control" placeholder="Name" id="name">
+    <input type="text" class="form-control" placeholder="Phone" id="phone">
+    <input type="text" class="form-control" placeholder="Email Address" id="email"> 
+    <input type="text" class="form-control" placeholder="Checking Bags" id="bags">
+    <input type="text" class="form-control" placeholder="Movie(Opptional)" id="movie">
+    <input type="text" class="form-control" placeholder="Meal(Opptional)" id="meal">
+    <input type="text" class="form-control" placeholder="Age" id="age">
+
+  
+    <div class="input-group-append">
+      <button class="btn btn-primary" type="button" onclick="insertCustomer()">Book Ticket</button>
+    </div>
+  </div>
+  <!-- end of insert form -->
+
+  <div id = "instruction">
+    <div>Note**</div>
+    <ul>
+      <li>If your party is more than 1, leave Booking Reference blank for the first person. We'll generate one for you</li>
+      <li>Flight ID and Booking Reference must be the same if you wish to flight with the other</li>
+    
+  </div>
+
+
+
+  <!-- dynamic table to display todo list -->
+  <table class="table mt-5 text-center" id="reserve-list">
+    <thead>
+      <tr>
+        <th>Flight ID</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th> 
+        <th>Checking Bags</th>
+        <th>Movie option</th>
+        <th>Meal option</th>
+        <th>Price</th>       
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <!-- add todos in tbody by modying the HTML in main.js -->
+    <tbody id="reserve-table">
+    </tbody>
+  </table>
+  <!-- End of dynamic table -->
+
+
+  
+
+</body>
+
+<script src="main.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+crossorigin="anonymous"></script>
+
+</html>
