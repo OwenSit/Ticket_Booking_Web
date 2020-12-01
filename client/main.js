@@ -53,12 +53,17 @@ async function flightsInfo() {
     const jsonData = await response.json();
 
     setFlights(jsonData);
-
+    console.log(jsonData);
     for (x of jsonData) {
       x.scheduled_arrival = parseISOString(x.scheduled_arrival);
       x.scheduled_departure = parseISOString(x.scheduled_departure);
+      if (!x.stop1_airport) {
+        x.stop1_airport = "N/A";
+      }
+      if (!x.stop2_airport) {
+        x.stop2_airport = "N/A";
+      }
     }
-    // console.log(parseISOString(jsonData[0].scheduled_arrival));
     displayFlights();
   } catch (err) {
     console.log(err.message);
