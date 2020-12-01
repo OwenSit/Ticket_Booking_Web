@@ -16,8 +16,26 @@ app.post("/book", async (req, res) => {
     console.log(st);
     info = st.split(",");
 
+    if (info[1] == "Y") {
+      info[1] = "t";
+    } else {
+      info[1] = "f";
+    }
+
+    if (info[2] == "Y") {
+      info[2] = "t";
+    } else {
+      info[2] = "f";
+    }
+
+    if (info[6] == "Y") {
+      info[6] = "t";
+    } else {
+      info[6] = "f";
+    }
+
     const newReserve = await pool.query(
-      `INSERT INTO tickett (flight_id, movie, meal, name, checked_bag, amount_woTax, discount, phone, email) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+      `INSERT INTO ticket (flight_id, movie, meal, name, checked_bag, amount_wotax, discount, phone, email) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
       [
         info[0],
         info[1],
@@ -30,6 +48,11 @@ app.post("/book", async (req, res) => {
         info[8],
       ]
     );
+    // update the seatnumber attribute:
+    await pool.query(
+      "UPDATE flights SET seats_available = seats_available-1, seats_booked = seats_booked+1 WHERE flight_id=$1",
+      [st[0]]
+    );
 
     res.json(newReserve);
   } catch (err) {
@@ -41,7 +64,9 @@ app.post("/book", async (req, res) => {
 // flight info:
 app.get("/", async (req, res) => {
   try {
-    const flightInfo = await pool.query(`SELECT * FROM flights`);
+    const flightInfo = await pool.query(
+      `SELECT * FROM flights ORDER BY flight_id ASC`
+    );
     res.json(flightInfo.rows);
   } catch (err) {
     console.log(err.message);
@@ -51,7 +76,7 @@ app.get("/", async (req, res) => {
 //get all todo
 app.get("/book", async (req, res) => {
   try {
-    const allReserve = await pool.query(`SELECT * FROM tickett`);
+    const allReserve = await pool.query(`SELECT * FROM ticket`);
     res.json(allReserve.rows);
   } catch (err) {
     console.log(err.message);
