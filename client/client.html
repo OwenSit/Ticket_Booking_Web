@@ -47,17 +47,48 @@
     <h2>Reservation</h2>
   </div>
 
-  <!-- todo insert input box and add button -->
+    <!-- todo insert input box and add button -->
    <div  id="input-reserve"> 
     <input type="text" class="form-control" placeholder="Flight ID" id="flightID">
     <input type="text" class="form-control" placeholder="Name" id="name">
     <input type="text" class="form-control" placeholder="Phone" id="phone">
     <input type="text" class="form-control" placeholder="Email Address" id="email"> 
-    <input type="text" class="form-control" placeholder="Checking Bags" id="bags">
-    <input type="text" class="form-control" placeholder="Movie(Opptional)" id="movie">
-    <input type="text" class="form-control" placeholder="Meal(Opptional)" id="meal">
     <input type="text" class="form-control" placeholder="Age" id="age">
+    <!-- <input type="text" class="form-control" placeholder="Checking Bags" id="bags">
+    <input type="text" class="form-control" placeholder="Movie(Opptional)" id="movie">
+    <input type="text" class="form-control" placeholder="Meal(Opptional)" id="meal"> -->
+    
+    <div id = "bag">Checking Bags</div>
+    <div class="bagQuantity quantityDropdown-cartItem">
+      <select id="qtySelect-61224b70-7b26-11e6-91d5-6921d6fe7421" class="cart-quantity-picker"
+              data-orderitem="61224b70-7b26-11e6-91d5-6921d6fe7421">
+          <option value="0" selected="">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+      </select>
+    </div>
+    
+    <div id = "movie">Movie (Optional)</div>
+    <div class="movie quantityDropdown-cartItem">
+      <select id="qtySelect-61224b70-7b26-11e6-91d5-6921d6fe7421" class="cart-quantity-picker"
+              data-orderitem="61224b70-7b26-11e6-91d5-6921d6fe7421">
+          <option value="N" selected="">No</option>
+          <option value="Y">Yes</option>
 
+      </select>
+    </div>
+
+    <div id = "meal">Meal (Optional)</div>
+    <div class="meal quantityDropdown-cartItem">
+      <select id="qtySelect-61224b70-7b26-11e6-91d5-6921d6fe7421" class="cart-quantity-picker"
+              data-orderitem="61224b70-7b26-11e6-91d5-6921d6fe7421">
+          <option value="N" selected="">No</option>
+          <option value="Y">Yes</option>
+
+      </select>
+    </div>
   
     <div class="input-group-append">
       <button class="btn btn-primary" type="button" onclick="insertCustomer()">Book Ticket</button>

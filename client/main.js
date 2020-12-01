@@ -117,14 +117,17 @@ async function selectReserve() {
 // insert a new todo
 async function insertCustomer() {
   // read the todo description from input
-  const fid = document.querySelector("#flightID").value;
-  const name = document.querySelector("#name").value;
-  const pho = document.querySelector("#phone").value;
-  const em = document.querySelector("#email").value;
-  const bg = document.querySelector("#bags").value;
-  const mv = document.querySelector("#movie").value;
-  const ml = document.querySelector("#meal").value;
-  const ag = document.querySelector("#age").value;
+  const fid = document.querySelector('#flightID').value;
+  const name = document.querySelector('#name').value;
+  const pho = document.querySelector('#phone').value;
+  const em = document.querySelector('#email').value;
+  // const bg = document.querySelector('#bags').value;
+  // const mv = document.querySelector('#movie').value;
+  // const ml = document.querySelector('#meal').value;
+  var bg = document.querySelector(".bagQuantity select").value;
+  var mv = document.querySelector(".movie select").value;
+  var ml = document.querySelector(".meal select").value;
+  const ag = document.querySelector('#age').value;
 
   price = 1000;
   dicount = "False";

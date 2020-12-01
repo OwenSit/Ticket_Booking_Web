@@ -22,3 +22,17 @@
     text-align: center;
     margin-left: 10%;
   }
+
+  #input-reserve > #bag, #movie, #meal, #flightID,#name,#phone,#email,#age 
+{
+  border: solid 2px skyblue;
+  padding: 10px;
+}
+
+#input-reserve > .bagQuantity
+{
+  text-align: left;
+  margin-right : 100%;
+  size: 70%;
+  color: red;
+}
