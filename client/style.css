@@ -1,6 +1,19 @@
+<<<<<<< Updated upstream
+=======
+body {
+  background-image: url("pic/image.jpg");
+  background-repeat: no-repeat;
+  background-size: cover
+  /* color: wheat; */
+
+ }
+
+
+>>>>>>> Stashed changes
 #title {
     text-align: center;
-    margin: 50px 0px 20px 0px;
+    background-color: #db9b9b;
+
   }
   #instruction
   {
