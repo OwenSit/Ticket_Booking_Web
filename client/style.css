@@ -9,12 +9,20 @@
   }
   
   
-  #input-reserve {
+  #input-reserve, #addmem, .input-group-append{
     /* width: 80%; */
     text-align: left;  
     /* margin-left: 10%; */
     padding-right: 40%;
     padding-left: 40%;
+  }
+  #addmem{
+    padding-left: 3px;
+    padding-right: 3px; 
+    text-align: right;
+    margin-left: 40%;
+    color:black;
+    border: solid 2px blue;
   }
   
   #reserve-list {
