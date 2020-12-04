@@ -3,10 +3,6 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 
-Date.prototype.addHours = function (h) {
-  this.setTime(this.getTime() + h * 60 * 60 * 1000);
-  return this;
-};
 // middleware
 app.use(cors());
 app.use(express.json()); //req.body
@@ -20,26 +16,8 @@ app.post("/book", async (req, res) => {
     console.log(st);
     info = st.split(",");
 
-    if (info[1] == "Y") {
-      info[1] = "t";
-    } else {
-      info[1] = "f";
-    }
-
-    if (info[2] == "Y") {
-      info[2] = "t";
-    } else {
-      info[2] = "f";
-    }
-
-    if (info[6] == "Y") {
-      info[6] = "t";
-    } else {
-      info[6] = "f";
-    }
-
     const newReserve = await pool.query(
-      `INSERT INTO ticket (flight_id, movie, meal, name, checked_bag, amount_wotax, discount, phone, email) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+      `INSERT INTO tickett (flight_id, movie, meal, name, checked_bag, amount_woTax, discount, phone, email) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
       [
         info[0],
         info[1],
@@ -52,23 +30,6 @@ app.post("/book", async (req, res) => {
         info[8],
       ]
     );
-    // update the seatnumber attribute:
-    await pool.query(
-      "UPDATE flights SET seats_available = seats_available-1, seats_booked = seats_booked+1 WHERE flight_id=$1",
-      [st[0]]
-    );
-    const departTime = await pool.query(
-      "SELECT scheduled_departure FROM flights WHERE flight_id=$1",
-      [st[0]]
-    );
-    const arrivalTime = await pool.query(
-      "SELECT scheduled_arrival FROM flights WHERE flight_id=$1",
-      [st[0]]
-    );
-    const ticketNO = newReserve.rows.ticket_no;
-    const flightID = st[0];
-
-    //insert new entry into boarding_passes:
 
     res.json(newReserve);
   } catch (err) {
@@ -80,11 +41,8 @@ app.post("/book", async (req, res) => {
 // flight info:
 app.get("/", async (req, res) => {
   try {
-    const flightInfo = await pool.query(
-      `SELECT * FROM flights ORDER BY flight_id ASC`
-    );
+    const flightInfo = await pool.query(`SELECT * FROM flights`);
     res.json(flightInfo.rows);
-    console.log(typeof flightInfo.rows[0].scheduled_departure);
   } catch (err) {
     console.log(err.message);
   }
@@ -93,7 +51,7 @@ app.get("/", async (req, res) => {
 //get all todo
 app.get("/book", async (req, res) => {
   try {
-    const allReserve = await pool.query(`SELECT * FROM ticket`);
+    const allReserve = await pool.query(`SELECT * FROM tickett`);
     res.json(allReserve.rows);
   } catch (err) {
     console.log(err.message);
@@ -105,7 +63,7 @@ app.get("/book/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const reserve = await pool.query(
-      `SELECT * FROM ticket 
+      `SELECT * FROM tickett 
                                    WHERE id = $1`,
       [id]
     );
@@ -121,7 +79,7 @@ app.put("/book/:id", async (req, res) => {
     const { id } = req.params;
     const { name } = req.body;
     const updateReserve = await pool.query(
-      `UPDATE ticket SET name = $1 
+      `UPDATE tickett SET name = $1 
                                          WHERE id = $2`,
       [name, id]
     );
@@ -136,7 +94,7 @@ app.delete("/book/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const deleteReserve = await pool.query(
-      `DELETE FROM ticket 
+      `DELETE FROM tickett 
                                          WHERE id = $1`,
       [id]
     );

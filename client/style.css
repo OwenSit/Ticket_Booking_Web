@@ -23,16 +23,13 @@
     margin-left: 10%;
   }
 
-  #input-reserve > #bag, #movie, #meal, #flightID,#name,#phone,#email,#age 
+  #input-reserve > #bag, #movie, #meal, #flightID,#name_0,#phone_0,#email_0,#age_0 
 {
   border: solid 2px skyblue;
   padding: 10px;
 }
 
-#input-reserve > .bagQuantity
+#input-reserve > #btm
 {
-  text-align: left;
-  margin-right : 100%;
-  size: 70%;
-  color: red;
+  padding-bottom: 10%;
 }

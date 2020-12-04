@@ -1,6 +1,6 @@
 // set global variable todos
 let tickett = [];
-
+var inputnum = 1;
 // function to set todos
 const setReserve = (data) => {
   tickett = data;
@@ -89,7 +89,7 @@ const displayReserve = () => {
     <th>${tickett.checked_bag}</th>
     <th>${tickett.movie}</th>
     <th>${tickett.meal}</th>
-    <th>${tickett.amount_wotax * (1 + tax)}</th>
+    <th>${tickett.amount_wotax + (tickett.amount_wotax * tax)}</th>
     
  
     <th><button class="btn btn-danger" type="button" onclick="deleteCustomer(${
@@ -118,22 +118,104 @@ async function selectReserve() {
     console.log(err.message);
   }
 }
+function addInput_of(input_type)
+{
+  var input_data = document.createElement('input');
+  input_data.type = 'text';
+  input_data.class = 'form-control';
+  input_data.id = input_type+'_' + inputnum;
+  input_data.placeholder = input_type.toUpperCase()+'-' + inputnum;
+  var parent = document.getElementById('input-reserve');
+  parent.appendChild(input_data);
 
+  var h1 = document.getElementById( input_data.id );
+  h1.style.border = 'solid 2px skyblue';
+  h1.style.padding = '10px';
+  h1.style.width = '100%';
+
+}
+function addSelect_of(input_type)
+{
+  var input_data = document.createElement('select');
+  //input_data.type = 'text';
+  input_data.class = input_type;
+  input_data.id = input_type+'_' + inputnum;
+  var parent = document.getElementById('input-reserve');
+  parent.appendChild(input_data);
+
+  ///////////////////////////////// HTML and CSS
+  var newId =  input_type+inputnum;
+  var elem = document.getElementById(input_data.id);
+  elem.insertAdjacentHTML('beforebegin', '<div id = '+newId+'>'+input_type.toUpperCase()+'-'+inputnum+' (Select)</div>');
+  var h1 = document.getElementById( newId);
+  h1.style.border = 'solid 2px skyblue';
+  h1.style.padding = '10px';
+  ///////////////////////////////////
+
+  return input_data.id;
+}
+function addOption(txt,va,select)
+{
+  var option = document.createElement("option");
+  option.text = txt;
+  option.value = va;
+  select.appendChild(option);
+}
+
+function addForm() {
+
+
+  addInput_of("name");
+  addInput_of("phone");
+  addInput_of("email");
+  addInput_of("age");
+
+  var select_id = addSelect_of("bag"); 
+  var select = document.getElementById(select_id);
+  for(let i =0; i< 5 ; i++){
+    addOption(i.toString(),i.toString(),select);
+  }
+
+  var select_id = addSelect_of("movie");
+  var select = document.getElementById(select_id);
+  addOption("No","N",select);
+  addOption("Yes","Y",select);
+
+
+  var select_id = addSelect_of("meal");
+  var select = document.getElementById(select_id);
+  addOption("No","N",select);
+  addOption("Yes","Y",select);
+////////////////////////////////////////////////////// HTML and CSS for padding btm
+  var newId =  "btm_"+inputnum;
+  var elem = document.getElementById(select_id);
+  elem.insertAdjacentHTML('afterend', '<div id = '+newId+'>'+'</div>');
+  var h1 = document.getElementById( newId);
+  h1.style.paddingBottom = '10%';
+
+  inputnum++ ;
+}
+async function addcustomer(){
+    alert("inputnum is "+inputnum);
+    for(let i=0; i<inputnum ; i++)
+    {
+      insertCustomer(i);
+    }
+
+}
 // insert a new todo
-async function insertCustomer() {
+async function insertCustomer(i) {
   // read the todo description from input
+  
   const fid = document.querySelector('#flightID').value;
-  const name = document.querySelector('#name').value;
-  const pho = document.querySelector('#phone').value;
-  const em = document.querySelector('#email').value;
-  // const bg = document.querySelector('#bags').value;
-  // const mv = document.querySelector('#movie').value;
-  // const ml = document.querySelector('#meal').value;
-  var bg = document.querySelector(".bagQuantity select").value;
-  var mv = document.querySelector(".movie select").value;
-  var ml = document.querySelector(".meal select").value;
-  const ag = document.querySelector('#age').value;
-
+  const name = document.querySelector('#name_'+i).value;
+  const pho = document.querySelector('#phone_'+i).value;
+  const em = document.querySelector('#email_'+i).value;
+  var bg = document.querySelector("#bag_"+i).value;
+  var mv = document.querySelector("#movie_"+i).value;
+  var ml = document.querySelector("#meal_"+i).value;
+  const ag = document.querySelector('#age_'+i).value;
+ 
   price = 1000;
   dicount = "False";
 
@@ -162,7 +244,10 @@ async function insertCustomer() {
     "," +
     em;
 
-  //alert(st);
+  // alert(name+"'s bag is "+bg);
+  // alert(name+"'s movie is "+mv);
+  // alert(name+"'s meal is "+ml);
+  alert("st is "+st);
 
   // use try... catch... to catch error
   try {
