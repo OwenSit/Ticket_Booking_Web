@@ -1,11 +1,7 @@
 // set global variable todos
 let tickett = [];
-<<<<<<< Updated upstream
-
-=======
-let book_info =[];
-var inputnum = 1;
->>>>>>> Stashed changes
+let book_info =[s];
+var inputnum = 1; 
 // function to set todos
 const setReserve = (data) => {
   tickett = data;
@@ -94,11 +90,7 @@ const displayReserve = () => {
     <th>${tickett.checked_bag}</th>
     <th>${tickett.movie}</th>
     <th>${tickett.meal}</th>
-<<<<<<< Updated upstream
-    <th>${tickett.amount_wotax * (1 + tax)}</th>
-=======
     <th>${tickett.amount + (tickett.amount * tax)}</th>
->>>>>>> Stashed changes
     
  
     <th><button class="btn btn-danger" type="button" onclick="deleteCustomer(${
@@ -127,8 +119,6 @@ async function selectReserve() {
     console.log(err.message);
   }
 }
-<<<<<<< Updated upstream
-=======
 function addInput_of(input_type)
 {
   var input_data = document.createElement('input');
@@ -221,21 +211,10 @@ async function addcustomer(){
       var ml = document.querySelector("#meal_"+i).value;
       const ag = document.querySelector('#age_'+i).value;
     }
->>>>>>> Stashed changes
 
 // insert a new todo
 async function insertCustomer() {
   // read the todo description from input
-<<<<<<< Updated upstream
-  const fid = document.querySelector("#flightID").value;
-  const name = document.querySelector("#name").value;
-  const pho = document.querySelector("#phone").value;
-  const em = document.querySelector("#email").value;
-  const bg = document.querySelector("#bags").value;
-  const mv = document.querySelector("#movie").value;
-  const ml = document.querySelector("#meal").value;
-  const ag = document.querySelector("#age").value;
-=======
   
   // const fid = document.querySelector('#flightID').value;
   // const name = document.querySelector('#name_'+i).value;
@@ -249,7 +228,6 @@ async function insertCustomer() {
   //construct mega-list var Body:
 
 
->>>>>>> Stashed changes
 
   price = 1000;
   dicount = "False";
