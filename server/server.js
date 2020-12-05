@@ -56,6 +56,34 @@ app.post("/book", async (req, res) => {
       [book_ref, total_amount]
     );
 
+    // STEP TWO: create passenger entries for everybody in the passengers table:
+    for (i = 0; i < book_info.length; i++) {
+      passenger_id = randomValueHex(20);
+      const exist = await pool.query(
+        "SELECT passenger_id FROM passengers where passenger_id=$1",
+        [passenger_id]
+      );
+
+      //make sure the book_ref is not repeating:
+      // finish generate book_ref:
+      while (exist.rows[0] == true) {
+        console.log("Oops, same passenger_id has been generated");
+        var passenger_id = randomValueHex(20);
+        exist = await pool.query(
+          "SELECT passenger_id FROM passengers where passenger_id=$1",
+          [passenger_id]
+        );
+      }
+      let passenger_name = book_info[i].name;
+      let email = book_info[i].email;
+      let phone = book_info[i].phone;
+      let age = book_info[i].age;
+      await pool.query(
+        "INSERT INTO passengers (passenger_id, book_ref, passenger_name, email, phone, age) VALUES($1,$2,$3,$4,$5,$6)",
+        [passenger_id, book_ref, passenger_name, email, phone, age]
+      );
+    }
+
     // create a book_ref entry:
 
     // const book_ref = await pool.query()
