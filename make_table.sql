@@ -89,7 +89,7 @@ CREATE TABLE flights (
 );
 
 CREATE TABLE bookings (
-    book_ref character(6) NOT NULL,
+    book_ref varchar(6) NOT NULL,
     book_date timestamp WITH time zone NOT NULL,
     total_amount numeric(10, 2) NOT NULL,
     PRIMARY KEY(book_ref)
@@ -97,7 +97,7 @@ CREATE TABLE bookings (
 
 CREATE TABLE passengers(
     passenger_id varchar(20) NOT NULL,
-    book_ref character(6) NOT NULL,
+    book_ref varchar(6) NOT NULL,
     passenger_name varchar(20) NOT NULL,
     email varchar(60),
     phone varchar(20),
@@ -108,7 +108,7 @@ CREATE TABLE passengers(
 
 CREATE TABLE tickets(
     ticket_no char(13) NOT NULL,
-    book_ref character(6) NOT NULL,
+    book_ref varchar(6) NOT NULL,
     passenger_id varchar(20) NOT NULL,
     PRIMARY KEY (ticket_no),
     CONSTRAINT "tickets_book_ref_fkey" FOREIGN KEY (book_ref) REFERENCES bookings(book_ref),

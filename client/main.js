@@ -11,6 +11,11 @@ tax = 0.08; //8% tax
 
 let flights = [];
 
+// let myList = [];
+// var myDict = { name: "jenny", age: 23 };
+// myList.push(myDict);
+// console.log(myList[0].age);
+
 // function to set todos
 const setFlights = (data) => {
   flights = data;
@@ -89,7 +94,7 @@ const displayReserve = () => {
     <th>${tickett.checked_bag}</th>
     <th>${tickett.movie}</th>
     <th>${tickett.meal}</th>
-    <th>${tickett.amount_wotax + (tickett.amount_wotax * tax)}</th>
+    <th>${tickett.amount + tickett.amount * tax}</th>
     
  
     <th><button class="btn btn-danger" type="button" onclick="deleteCustomer(${
@@ -118,44 +123,49 @@ async function selectReserve() {
     console.log(err.message);
   }
 }
-function addInput_of(input_type)
-{
-  var input_data = document.createElement('input');
-  input_data.type = 'text';
-  input_data.class = 'form-control';
-  input_data.id = input_type+'_' + inputnum;
-  input_data.placeholder = input_type.toUpperCase()+'-' + inputnum;
-  var parent = document.getElementById('input-reserve');
+function addInput_of(input_type) {
+  var input_data = document.createElement("input");
+  input_data.type = "text";
+  input_data.class = "form-control";
+  input_data.id = input_type + "_" + inputnum;
+  input_data.placeholder = input_type.toUpperCase() + "-" + inputnum;
+  var parent = document.getElementById("input-reserve");
   parent.appendChild(input_data);
 
-  var h1 = document.getElementById( input_data.id );
-  h1.style.border = 'solid 2px skyblue';
-  h1.style.padding = '10px';
-  h1.style.width = '100%';
-
+  var h1 = document.getElementById(input_data.id);
+  h1.style.border = "solid 2px skyblue";
+  h1.style.padding = "10px";
+  h1.style.width = "100%";
 }
-function addSelect_of(input_type)
-{
-  var input_data = document.createElement('select');
+function addSelect_of(input_type) {
+  var input_data = document.createElement("select");
   //input_data.type = 'text';
   input_data.class = input_type;
-  input_data.id = input_type+'_' + inputnum;
-  var parent = document.getElementById('input-reserve');
+  input_data.id = input_type + "_" + inputnum;
+  var parent = document.getElementById("input-reserve");
   parent.appendChild(input_data);
 
   ///////////////////////////////// HTML and CSS
-  var newId =  input_type+inputnum;
+  var newId = input_type + inputnum;
   var elem = document.getElementById(input_data.id);
-  elem.insertAdjacentHTML('beforebegin', '<div id = '+newId+'>'+input_type.toUpperCase()+'-'+inputnum+' (Select)</div>');
-  var h1 = document.getElementById( newId);
-  h1.style.border = 'solid 2px skyblue';
-  h1.style.padding = '10px';
+  elem.insertAdjacentHTML(
+    "beforebegin",
+    "<div id = " +
+      newId +
+      ">" +
+      input_type.toUpperCase() +
+      "-" +
+      inputnum +
+      " (Select)</div>"
+  );
+  var h1 = document.getElementById(newId);
+  h1.style.border = "solid 2px skyblue";
+  h1.style.padding = "10px";
   ///////////////////////////////////
 
   return input_data.id;
 }
-function addOption(txt,va,select)
-{
+function addOption(txt, va, select) {
   var option = document.createElement("option");
   option.text = txt;
   option.value = va;
@@ -163,96 +173,71 @@ function addOption(txt,va,select)
 }
 
 function addForm() {
-
-
   addInput_of("name");
   addInput_of("phone");
   addInput_of("email");
   addInput_of("age");
 
-  var select_id = addSelect_of("bag"); 
+  var select_id = addSelect_of("bag");
   var select = document.getElementById(select_id);
-  for(let i =0; i< 5 ; i++){
-    addOption(i.toString(),i.toString(),select);
+  for (let i = 0; i < 5; i++) {
+    addOption(i.toString(), i.toString(), select);
   }
 
   var select_id = addSelect_of("movie");
   var select = document.getElementById(select_id);
-  addOption("No","N",select);
-  addOption("Yes","Y",select);
-
+  addOption("No", "N", select);
+  addOption("Yes", "Y", select);
 
   var select_id = addSelect_of("meal");
   var select = document.getElementById(select_id);
-  addOption("No","N",select);
-  addOption("Yes","Y",select);
-////////////////////////////////////////////////////// HTML and CSS for padding btm
-  var newId =  "btm_"+inputnum;
+  addOption("No", "N", select);
+  addOption("Yes", "Y", select);
+  ////////////////////////////////////////////////////// HTML and CSS for padding btm
+  var newId = "btm_" + inputnum;
   var elem = document.getElementById(select_id);
-  elem.insertAdjacentHTML('afterend', '<div id = '+newId+'>'+'</div>');
-  var h1 = document.getElementById( newId);
-  h1.style.paddingBottom = '10%';
+  elem.insertAdjacentHTML("afterend", "<div id = " + newId + ">" + "</div>");
+  var h1 = document.getElementById(newId);
+  h1.style.paddingBottom = "10%";
 
-  inputnum++ ;
+  inputnum++;
 }
-async function addcustomer(){
-    alert("inputnum is "+inputnum);
-    for(let i=0; i<inputnum ; i++)
-    {
-      insertCustomer(i);
+
+async function addcustomer() {
+  let book_info = [];
+  alert("inputnum is " + inputnum);
+  for (let i = 0; i < inputnum; i++) {
+    let price = 1000;
+    var discount = false;
+    const fid = document.querySelector("#flightID").value;
+    const name = document.querySelector("#name_" + i).value;
+    const pho = document.querySelector("#phone_" + i).value;
+    const em = document.querySelector("#email_" + i).value;
+    var bg = document.querySelector("#bag_" + i).value;
+    var mv = document.querySelector("#movie_" + i).value;
+    var ml = document.querySelector("#meal_" + i).value;
+    const ag = document.querySelector("#age_" + i).value;
+    if (ag < 18 || ag > 56) {
+      discount = true;
+      price = price * 0.8; //20% off
     }
-
-}
-// insert a new todo
-async function insertCustomer(i) {
-  // read the todo description from input
-  
-  const fid = document.querySelector('#flightID').value;
-  const name = document.querySelector('#name_'+i).value;
-  const pho = document.querySelector('#phone_'+i).value;
-  const em = document.querySelector('#email_'+i).value;
-  var bg = document.querySelector("#bag_"+i).value;
-  var mv = document.querySelector("#movie_"+i).value;
-  var ml = document.querySelector("#meal_"+i).value;
-  const ag = document.querySelector('#age_'+i).value;
- 
-  price = 1000;
-  dicount = "False";
-
-  if (ag < 18 || ag > 56) {
-    dicount = "True";
-    price = price * 0.8; //20% off
+    var myDict = {
+      flight_id: fid,
+      name: name,
+      phone: pho,
+      email: em,
+      checked_bag: bg,
+      movie: mv,
+      meal: ml,
+      age: ag,
+      discount: discount,
+      amount: price,
+    };
+    book_info.push(myDict);
   }
-
-  //flight_id,movie,meal,name,checked_bag,amount_woTax,discount,phone,emal
-  st =
-    fid +
-    "," +
-    mv +
-    "," +
-    ml +
-    "," +
-    name +
-    "," +
-    bg +
-    "," +
-    price.toString() +
-    "," +
-    dicount +
-    "," +
-    pho +
-    "," +
-    em;
-
-  // alert(name+"'s bag is "+bg);
-  // alert(name+"'s movie is "+mv);
-  // alert(name+"'s meal is "+ml);
-  alert("st is "+st);
-
-  // use try... catch... to catch error
   try {
     // insert new name to "http://localhost:5000/book", with "POST" method
-    const body = { st: st };
+    const body = book_info;
     const response = await fetch("http://localhost:5000/book", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -266,7 +251,6 @@ async function insertCustomer(i) {
     console.log(err.message);
   }
 }
-
 // delete a todo by id
 async function deleteCustomer(id) {
   try {
