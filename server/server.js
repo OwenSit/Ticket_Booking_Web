@@ -29,6 +29,11 @@ function makeSeatID() {
   let letter = makeLetter(1);
   return letter.concat(number);
 }
+function makeGateID() {
+  let number = makeNumber(2);
+  let letter = makeLetter(1);
+  return letter.concat(number);
+}
 
 //function code taken from http://blog.tompawlak.org/how-to-generate-random-values-nodejs-javascript
 function randomValueHex(len) {
@@ -56,6 +61,19 @@ app.post("/book", async (req, res) => {
     // console.log(book_info);
     var flight_id = book_info[0].flight_id;
     var book_ref = randomValueHex(6);
+    var boarding_gate = makeGateID();
+    let EXist = await pool.query(
+      "SELECT boarding_gate FROM boarding_info where boarding_gate=$1",
+      [boarding_gate]
+    );
+    while ((await EXist.rows[0]) != null) {
+      console.log("Oops, same boarding_gate number has been generated");
+      boarding_gate = makeGateID();
+      EXist = await pool.query(
+        "SELECT boarding_gate FROM boarding_info where boarding_gate=$1",
+        [boarding_gate]
+      );
+    }
     const exist = await pool.query(
       "SELECT book_ref FROM bookings where book_ref=$1",
       [book_ref]
@@ -63,7 +81,7 @@ app.post("/book", async (req, res) => {
 
     //make sure the book_ref is not repeating:
     // finish generate book_ref:
-    while (exist.rows[0] == true) {
+    while (exist.rows[0] != null) {
       console.log("Oops, same book_ref has been generated");
       book_ref = randomValueHex(6);
       exist = await pool.query(
@@ -86,25 +104,25 @@ app.post("/book", async (req, res) => {
     // STEP TWO: create passenger entries for everybody in the passengers table:
     for (i = 0; i < book_info.length; i++) {
       var passenger_id = randomValueHex(20);
-      const exist = await pool.query(
+      const EXIst = await pool.query(
         "SELECT passenger_id FROM passengers where passenger_id=$1",
         [passenger_id]
       );
 
       //make sure the book_ref is not repeating:
       // finish generate book_ref:
-      while (exist.rows[0] == true) {
+      while (EXIst.rows[0] != null) {
         console.log("Oops, same passenger_id has been generated");
         passenger_id = randomValueHex(20);
-        exist = await pool.query(
+        EXIst = await pool.query(
           "SELECT passenger_id FROM passengers where passenger_id=$1",
           [passenger_id]
         );
       }
-      let passenger_name = book_info[i].name;
-      let email = book_info[i].email;
-      let phone = book_info[i].phone;
-      let age = book_info[i].age;
+      let passenger_name = await book_info[i].name;
+      let email = await book_info[i].email;
+      let phone = await book_info[i].phone;
+      let age = await book_info[i].age;
       await pool.query(
         "INSERT INTO passengers (passenger_id, book_ref, passenger_name, email, phone, age) VALUES($1,$2,$3,$4,$5,$6)",
         [passenger_id, book_ref, passenger_name, email, phone, age]
@@ -112,14 +130,15 @@ app.post("/book", async (req, res) => {
 
       // inserting into tickets table:
       var ticket_no = randomValueHex(13);
+      var seat_no = "";
       const Exist = await pool.query(
         "SELECT ticket_no FROM tickets where ticket_no=$1",
         [ticket_no]
       );
-      while (Exist.rows[0] == true) {
+      while (Exist.rows[0] != null) {
         console.log("Oops, same ticket_no has been generated");
         ticket_no = randomValueHex(13);
-        exist = await pool.query(
+        Exist = await pool.query(
           "SELECT ticket_no FROM tickets where ticket_no=$1",
           [ticket_no]
         );
@@ -128,14 +147,15 @@ app.post("/book", async (req, res) => {
         "INSERT INTO tickets (ticket_no, book_ref, passenger_id) VALUES ($1,$2,$3)",
         [ticket_no, book_ref, passenger_id]
       );
-      let seat_no = makeSeatID();
-      let movie = book_info[i].movie;
-      let meal = book_info[i].meal;
+      seat_no = makeSeatID();
+      console.log(book_info[i]);
+      let movie = await book_info[i].movie;
+      let meal = await book_info[i].meal;
       const EXIST = await pool.query(
         "SELECT seat_no FROM seats where seat_no=$1",
         [seat_no]
       );
-      while (Exist.rows[0] == true) {
+      while (EXIST.rows[0] != null) {
         console.log("Oops, same seat_no has been generated");
         seat_no = makeSeatID();
         EXIST = await pool.query("SELECT seat_no FROM seats where seat_no=$1", [
@@ -145,6 +165,35 @@ app.post("/book", async (req, res) => {
       await pool.query(
         "INSERT INTO seats (seat_no, flight_id, passenger_id, fare_conditions, movie, meal) VALUES($1,$2,$3,$4,$5,$6)",
         [seat_no, flight_id, passenger_id, "Economy", movie, meal]
+      );
+
+      // create ticket_flights entries:
+      let amount = await book_info[i].amount;
+      await pool.query(
+        "INSERT INTO ticket_flights (ticket_no, flight_id, fare_conditions, amount) VALUES($1, $2, $3, $4)",
+        [ticket_no, flight_id, "Economy", amount]
+      );
+      // create boarding_info entries:
+      let checked_bag = await book_info[i].checked_bag;
+
+      let scheduled_departure = await pool.query(
+        "SELECT scheduled_departure FROM flights WHERE flight_id=$1",
+        ["1001"]
+      );
+      scheduled_departure = scheduled_departure.rows[0].scheduled_departure;
+      var date = new Date(scheduled_departure);
+      date.setHours(date.getHours() - 1);
+      let boarding_time = date.toISOString();
+      await pool.query(
+        "INSERT INTO boarding_info (ticket_no, flight_id, seat_no, checked_bag, boarding_time, boarding_gate) VALUES ($1,$2,$3,$4,$5,$6)",
+        [
+          ticket_no,
+          flight_id,
+          seat_no,
+          checked_bag,
+          boarding_time,
+          boarding_gate,
+        ]
       );
     }
 
@@ -162,7 +211,7 @@ app.get("/", async (req, res) => {
       `SELECT * FROM flights ORDER BY flight_id ASC`
     );
     res.json(flightInfo.rows);
-    console.log(typeof flightInfo.rows[0].scheduled_departure);
+    // console.log(typeof flightInfo.rows[0].scheduled_departure);
   } catch (err) {
     console.log(err.message);
   }
