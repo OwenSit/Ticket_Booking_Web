@@ -202,6 +202,7 @@ function addForm() {
 
   inputnum++;
 }
+
 async function addcustomer() {
   let book_info = [];
   alert("inputnum is " + inputnum);
@@ -249,7 +250,7 @@ async function addcustomer() {
   } catch (err) {
     console.log(err.message);
   }
-
+}
 // delete a todo by id
 async function deleteCustomer(id) {
   try {
