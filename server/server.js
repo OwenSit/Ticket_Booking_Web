@@ -74,7 +74,33 @@ app.post("/book", async (req, res) => {
         [boarding_gate]
       );
     }
-    const exist = await pool.query(
+    var arrival_gate = makeGateID();
+    EXist = await pool.query(
+      "SELECT arrival_gate FROM arrival_info where arrival_gate=$1",
+      [arrival_gate]
+    );
+    while ((await EXist.rows[0]) != null) {
+      console.log("Oops, same arrival_gate number has been generated");
+      arrival_gate = makeGateID();
+      EXist = await pool.query(
+        "SELECT arrival_gate FROM arrival_info where arrival_gate=$1",
+        [arrival_gate]
+      );
+    }
+    var baggage_claim = makeGateID();
+    EXist = await pool.query(
+      "SELECT baggage_claim FROM arrival_info where baggage_claim=$1",
+      [baggage_claim]
+    );
+    while ((await EXist.rows[0]) != null) {
+      console.log("Oops, same baggage_claim number has been generated");
+      baggage_claim = makeGateID();
+      EXist = await pool.query(
+        "SELECT baggage_claim FROM arrival_info where baggage_claim=$1",
+        [baggage_claim]
+      );
+    }
+    let exist = await pool.query(
       "SELECT book_ref FROM bookings where book_ref=$1",
       [book_ref]
     );
@@ -104,7 +130,7 @@ app.post("/book", async (req, res) => {
     // STEP TWO: create passenger entries for everybody in the passengers table:
     for (i = 0; i < book_info.length; i++) {
       var passenger_id = randomValueHex(20);
-      const EXIst = await pool.query(
+      let EXIst = await pool.query(
         "SELECT passenger_id FROM passengers where passenger_id=$1",
         [passenger_id]
       );
@@ -131,7 +157,7 @@ app.post("/book", async (req, res) => {
       // inserting into tickets table:
       var ticket_no = randomValueHex(13);
       var seat_no = "";
-      const Exist = await pool.query(
+      let Exist = await pool.query(
         "SELECT ticket_no FROM tickets where ticket_no=$1",
         [ticket_no]
       );
@@ -148,10 +174,10 @@ app.post("/book", async (req, res) => {
         [ticket_no, book_ref, passenger_id]
       );
       seat_no = makeSeatID();
-      console.log(book_info[i]);
+      // console.log(book_info[i]);
       let movie = await book_info[i].movie;
       let meal = await book_info[i].meal;
-      const EXIST = await pool.query(
+      let EXIST = await pool.query(
         "SELECT seat_no FROM seats where seat_no=$1",
         [seat_no]
       );
@@ -178,7 +204,7 @@ app.post("/book", async (req, res) => {
 
       let scheduled_departure = await pool.query(
         "SELECT scheduled_departure FROM flights WHERE flight_id=$1",
-        ["1001"]
+        [flight_id]
       );
       scheduled_departure = scheduled_departure.rows[0].scheduled_departure;
       var date = new Date(scheduled_departure);
@@ -194,6 +220,17 @@ app.post("/book", async (req, res) => {
           boarding_time,
           boarding_gate,
         ]
+      );
+
+      // create arrival_info entry:
+      let scheduled_arrival = await pool.query(
+        "SELECT scheduled_arrival FROM flights WHERE flight_id=$1",
+        [flight_id]
+      );
+      let arrival_time = await scheduled_arrival.rows[0].scheduled_arrival;
+      await pool.query(
+        "INSERT INTO arrival_info (ticket_no, flight_id, arrival_time, arrival_gate, baggage_claim) VALUES ($1, $2, $3, $4, $5)",
+        [ticket_no, flight_id, arrival_time, arrival_gate, baggage_claim]
       );
     }
 
