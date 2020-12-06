@@ -6,7 +6,7 @@
     <!--文字コード（文字化け防止、utf-8　は推奨されているコード -->
     <meta charset="utf-8">
     <!--Title（ブラウザのタブに表示される）-->
-    <title>Booking Ticket</title>
+    <title>Modify Ticket</title>
     <!--<a href=""></a>-->
     <!--CSSからの読み込み宣言-->
     <link rel="stylesheet" href="modify.css" >
@@ -17,116 +17,19 @@
 
 
 <body>
-  <div id="title">
-    <h2>Flights Information</h2>
+
+ <div id="client">
+    <a href="client.html"><strong>Booking new ticket</strong></a>
   </div>
-    <!-- dynamic table to display todo list -->
-    <table class="table mt-5 text-center" id="reserve-list">
-      <thead>
-        <tr>
-          <th>Flight ID</th>
-          <th>Departure</th>
-          <th>Arrival</th>
-          <th>Departing_airport</th> 
-          <th>stop1_airport</th>
-          <th>stop2_airport</th>
-          <th>Arrival_airport</th>
-          <th>seats_available</th>       
-          <th>status</th>
-        </tr>
-      </thead>
-      <!-- add todos in tbody by modying the HTML in main.js -->
-      <tbody id="flight-table">
-      </tbody>
-    </table>
-    <!-- End of dynamic table -->
-
-
-  <!-- Title -->
-  <div id="title">
-    <h2>Reservation</h2>
-  </div>
-
-  <!-- todo insert input box and add button -->
-   <div  id="input-reserve"> 
-   
-    <input type="text" class="form-control" placeholder="Flight ID" id="flightID">
-    <input type="text" class="form-control" placeholder="NAME-0" id="name_0">
-    <input type="text" class="form-control" placeholder="PHONE-0" id="phone_0">
-    <input type="text" class="form-control" placeholder="EMAIL-0" id="email_0"> 
-    <input type="text" class="form-control" placeholder="AGE-0" id="age_0">
-
-
-    <div id = "bag">BAG-0 (Select)</div>
-    <select id="bag_0" class="bagQuantity">
-        <option value="0" selected="">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-    </select>
-
-    
-    <div id = "movie">MOVIE-0 (Select)</div>
-    <select id="movie_0" class="movieSelect">
-        <option value="N" selected="">No</option>
-        <option value="Y">Yes</option>
-    </select>
-
-
-    <div id = "meal">MEAL-0 (Select)</div>
-    <select id="meal_0" class="mealSelect">
-        <option value="N" selected="">No</option>
-        <option value="Y">Yes</option>
-    </select>
-
-    <div id ="btm"></div>
-
-  </div>  
-
-  <!-- end of insert form -->
-  
-  <input type="button" value="Add Member" onclick="addForm()" id = "addmem">  <!--///////////////--> 
-  <div class="input-group-append">
-    <button class="btn btn-primary" type="button" onclick="addcustomer()">Book Ticket</button>
-  </div>
-
-
-
-  <div id = "instruction">
-    <div>Note**</div>
-    <ul>
-      <li>If your party is more than 1, leave Booking Reference blank for the first person. We'll generate one for you</li>
-      <li>Flight ID and Booking Reference must be the same if you wish to flight with the other</li>
-    
-  </div>
-
-
-
-  <!-- dynamic table to display todo list -->
-  <table class="table mt-5 text-center" id="reserve-list">
-    <thead>
-      <tr>
-        <th>Flight ID</th>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Email</th> 
-        <th>Checking Bags</th>
-        <th>Movie option</th>
-        <th>Meal option</th>
-        <th>Price</th>       
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <!-- add todos in tbody by modying the HTML in main.js -->
-    <tbody id="reserve-table">
-    </tbody>
-  </table>
-  <!-- End of dynamic table -->
-
-
-  
-
+  <div id = "mod"> 
+    <div id="title">
+        <h2>Type your Booking Reference ID</h2>
+    </div>
+    <div  id="book_reference"> 
+            <input type="text" class="form-control" placeholder="Booking Reference" id="book_ref">
+    </div>
+    <input type="button" value="Show my booking info" onclick="showinfo()" id = "showinfo">
+   </div>
 </body>
 
 <script src="main.js"></script>
