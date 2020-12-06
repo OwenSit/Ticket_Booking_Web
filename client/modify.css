@@ -30,3 +30,9 @@ body {
     text-align: right;
     
 }
+
+#customer-list {
+    width: 80%;
+    text-align: center;
+    margin-left: 10%;
+  }

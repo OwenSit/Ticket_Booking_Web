@@ -322,7 +322,7 @@ app.get("/", async (req, res) => {
 //get all todo
 app.get("/book", async (req, res) => {
   try {
-    const allReserve = await pool.query(`SELECT * FROM ticket`);
+    const allReserve = await pool.query(`SELECT * FROM passengers`);
     res.json(allReserve.rows);
   } catch (err) {
     console.log(err.message);

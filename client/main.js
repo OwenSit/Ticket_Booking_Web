@@ -274,6 +274,53 @@ async function deleteCustomer(id) {
 async function showinfo()
 {
   const bref = document.querySelector("#book_ref").value;
-  alert(bref);
+  //alert(bref);
+  selectInfo();
 
+}
+
+// set global variable todos
+let infos = []
+
+// function to set customers
+const setTodos = (data) => {
+  infos = data;
+}
+
+// function to display customers
+const displayTodos = () => {
+  const todoTable = document.querySelector('#todo-table');
+
+  // display all customers by modifying the HTML in "todo-table"
+  let tableHTML = "";
+  infos.map(passengers =>{
+    tableHTML +=
+    `<tr key=${passengers.passenger_id}>
+    <th>${passengers.passenger_id}</th>
+    <th>${passengers.book_ref}</th>
+    <th>${passengers.passenger_name}</th>
+    <th>${passengers.email}</th>
+    <th>${passengers.phone}</th>
+    <th>${passengers.age}</th>
+    <th><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#edit-modal" onclick="editTodo(${todo.todo_id})">Edit</button></th>
+    <th><button class="btn btn-danger" type="button" onclick="deleteTodo(${passengers.passenger_id})">Delete</button></th>
+    </tr>`;
+  })
+  todoTable.innerHTML = tableHTML;
+
+}
+async function selectInfo() {
+  // use try... catch... to catch error
+  try {
+
+    // GET all todos from "http://localhost:5000/todos"
+    const response = await fetch("http://localhost:5000/book")
+    const jsonData = await response.json();
+
+    setTodos(jsonData);
+    displayTodos();
+
+  } catch (err) {
+    console.log(err.message);
+  }
 }
