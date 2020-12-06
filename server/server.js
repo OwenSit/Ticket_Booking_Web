@@ -305,7 +305,7 @@ app.post("/book", async (req, res) => {
   }
 });
 
-/****************************************************************** */
+
 // flight info:
 app.get("/", async (req, res) => {
   try {
@@ -322,8 +322,25 @@ app.get("/", async (req, res) => {
 //get all todo
 app.get("/book", async (req, res) => {
   try {
-    const allReserve = await pool.query(`SELECT * FROM passengers`);
+    const allReserve = await pool.query(`SELECT * FROM ticket`);
     res.json(allReserve.rows);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+app.put("/modify", async (req, res) => {
+  try {
+
+    const {bref} = req.body;
+    console.log(bref);
+
+    const allReserve = await pool.query(
+      "SELECT * FROM passengers where book_ref =$1",
+        [bref]
+    );
+    res.json(allReserve.rows);
+    //res.json("halloe from server");
   } catch (err) {
     console.log(err.message);
   }
@@ -374,6 +391,9 @@ app.delete("/book/:id", async (req, res) => {
     console.log(err.message);
   }
 });
+/****************************************************************** */
+
+
 
 // set up the server listening at port 5000 (the port number can be changed)
 app.listen(5000, () => {

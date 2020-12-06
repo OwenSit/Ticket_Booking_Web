@@ -275,7 +275,7 @@ async function showinfo()
 {
   const bref = document.querySelector("#book_ref").value;
   //alert(bref);
-  selectInfo();
+  selectInfo(bref);
 
 }
 
@@ -289,33 +289,38 @@ const setTodos = (data) => {
 
 // function to display customers
 const displayTodos = () => {
-  const todoTable = document.querySelector('#todo-table');
+  const infoTable = document.querySelector('#info-table');
 
   // display all customers by modifying the HTML in "todo-table"
   let tableHTML = "";
   infos.map(passengers =>{
     tableHTML +=
     `<tr key=${passengers.passenger_id}>
-    <th>${passengers.passenger_id}</th>
     <th>${passengers.book_ref}</th>
     <th>${passengers.passenger_name}</th>
     <th>${passengers.email}</th>
     <th>${passengers.phone}</th>
     <th>${passengers.age}</th>
-    <th><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#edit-modal" onclick="editTodo(${todo.todo_id})">Edit</button></th>
+    <th><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#edit-modal" onclick="editTodo(${passengers.passenger_id})">Edit</button></th>
     <th><button class="btn btn-danger" type="button" onclick="deleteTodo(${passengers.passenger_id})">Delete</button></th>
     </tr>`;
   })
-  todoTable.innerHTML = tableHTML;
+  infoTable.innerHTML = tableHTML;
 
 }
-async function selectInfo() {
+async function selectInfo(bref) {
   // use try... catch... to catch error
   try {
+    
+    const body = { bref: bref };
+    const response = await fetch("http://localhost:5000/modify", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
 
-    // GET all todos from "http://localhost:5000/todos"
-    const response = await fetch("http://localhost:5000/book")
     const jsonData = await response.json();
+    // alert(jsonData[0].passenger_name);
 
     setTodos(jsonData);
     displayTodos();
