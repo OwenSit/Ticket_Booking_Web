@@ -4,6 +4,11 @@ const cors = require("cors");
 const pool = require("./db");
 var crypto = require("crypto");
 
+function parseISOString(s) {
+  var b = s.split(/\D+/);
+  return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+}
+
 function makeLetter(length) {
   var result = "";
   var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -239,6 +244,33 @@ app.post("/book", async (req, res) => {
         "INSERT INTO arrival_info (ticket_no, flight_id, arrival_time, arrival_gate, baggage_claim) VALUES ($1, $2, $3, $4, $5)",
         [ticket_no, flight_id, arrival_time, arrival_gate, baggage_claim]
       );
+      // update flight table with the abailable_seats and booked_seats:
+      await pool.query(
+        "UPDATE flights SET seats_available=seats_available-1, seats_booked=seats_booked+1 WHERE flight_id=$1",
+        [flight_id]
+      );
+      let fetched_airports = await pool.query(
+        "SELECT departure_airport, stop1_airport, stop2_airport, arrival_airport, status FROM flights WHERE flight_id=$1",
+        [flight_id]
+      );
+      fetched_airports = fetched_airports.rows[0];
+      // finalize the response mega-list:
+      myDict["name"] = passenger_name;
+      myDict["book_ref"] = book_ref;
+      myDict["passenger_id"] = passenger_id;
+      myDict["ticket_no"] = ticket_no;
+      myDict["departure_airport"] = fetched_airports.departure_airport;
+      myDict["stop1_airport"] = fetched_airports.stop1_airport;
+      myDict["stop2_airport"] = fetched_airports.stop2_airport;
+      myDict["arrival_airport"] = fetched_airports.arrival_airport;
+      myDict["status"] = fetched_airports.status;
+      myDict["seat_no"] = seat_no;
+      myDict["boarding_time"] = boarding_time;
+      myDict["boarding_gate"] = boarding_gate;
+      myDict["arrival_time"] = arrival_time;
+      myDict["arrival_gate"] = arrival_gate;
+      myDict["baggage_claim"] = baggage_claim;
+      Res.push(myDict);
     }
     var transaction_id = randomValueHex(20);
     let exiST = await pool.query(
@@ -262,6 +294,10 @@ app.post("/book", async (req, res) => {
       "INSERT INTO transactions (transaction_id, passenger_id, card_number, total_amount) VALUES($1,$2,$3,$4)",
       [transaction_id, pid, card_no, total_amount]
     );
+
+    // console.log(Res);
+    // send the mega-list back to client:
+    res.json(Res);
 
     // res.json(newReserve);
   } catch (err) {
