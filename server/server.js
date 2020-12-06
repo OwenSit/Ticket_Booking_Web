@@ -56,6 +56,9 @@ app.use(express.json()); //req.body
 
 app.post("/book", async (req, res) => {
   try {
+    // mega-list for response
+    var Res = [];
+    var myDict = {};
     // STEP ONE: generate a new entry in the bookings table:
     const book_info = req.body;
     // console.log(book_info);
