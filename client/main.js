@@ -210,6 +210,7 @@ async function addcustomer() {
     let price = 1000;
     var discount = false;
     const fid = document.querySelector("#flightID").value;
+    const card_no = document.querySelector("#card_no").value;
     const name = document.querySelector("#name_" + i).value;
     const pho = document.querySelector("#phone_" + i).value;
     const em = document.querySelector("#email_" + i).value;
@@ -232,6 +233,7 @@ async function addcustomer() {
       age: ag,
       discount: discount,
       amount: price,
+      card_no: card_no,
     };
     book_info.push(myDict);
   }

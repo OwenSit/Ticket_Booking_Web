@@ -233,6 +233,28 @@ app.post("/book", async (req, res) => {
         [ticket_no, flight_id, arrival_time, arrival_gate, baggage_claim]
       );
     }
+    var transaction_id = randomValueHex(20);
+    let exiST = await pool.query(
+      "SELECT transaction_id FROM transactions where transaction_id=$1",
+      [transaction_id]
+    );
+
+    //make sure the book_ref is not repeating:
+    // finish generate book_ref:
+    while (exiST.rows[0] != null) {
+      console.log("Oops, same transaction_id has been generated");
+      transaction_id = randomValueHex(20);
+      exiST = await pool.query(
+        "SELECT transaction_id FROM transactions where transaction_id=$1",
+        [transaction_id]
+      );
+    }
+    let card_no = book_info[0].card_no; // card number for the first cumtomer(who is paying the whole transaction :(
+    let pid = book_info[0].passenger_id; // passneger_id for the first customer
+    await pool.query(
+      "INSERT INTO transactions (transaction_id, passenger_id, card_number, total_amount) VALUES($1,$2,$3,$4)",
+      [transaction_id, pid, card_no, total_amount]
+    );
 
     // res.json(newReserve);
   } catch (err) {
