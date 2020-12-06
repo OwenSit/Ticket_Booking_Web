@@ -37,7 +37,7 @@ body {
     margin-left: 10%;
   }
 
-  #input-reserve > #bag, #movie, #meal, #flightID,#name_0,#phone_0,#email_0,#age_0 
+  #input-reserve > #bag, #movie, #meal, #flightID,#card_no,#name_0,#phone_0,#email_0,#age_0 
 {
   border: solid 2px skyblue;
   padding: 10px;
