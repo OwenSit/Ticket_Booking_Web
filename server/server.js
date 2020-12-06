@@ -59,6 +59,7 @@ app.post("/book", async (req, res) => {
     // STEP ONE: generate a new entry in the bookings table:
     const book_info = req.body;
     // console.log(book_info);
+    var first_passengerID = "";
     var flight_id = book_info[0].flight_id;
     var book_ref = randomValueHex(6);
     var boarding_gate = makeGateID();
@@ -144,6 +145,9 @@ app.post("/book", async (req, res) => {
           "SELECT passenger_id FROM passengers where passenger_id=$1",
           [passenger_id]
         );
+      }
+      if (i == 0) {
+        first_passengerID = passenger_id;
       }
       let passenger_name = await book_info[i].name;
       let email = await book_info[i].email;
@@ -250,7 +254,7 @@ app.post("/book", async (req, res) => {
       );
     }
     let card_no = book_info[0].card_no; // card number for the first cumtomer(who is paying the whole transaction :(
-    let pid = book_info[0].passenger_id; // passneger_id for the first customer
+    let pid = first_passengerID; // passneger_id for the first customer
     await pool.query(
       "INSERT INTO transactions (transaction_id, passenger_id, card_number, total_amount) VALUES($1,$2,$3,$4)",
       [transaction_id, pid, card_no, total_amount]
