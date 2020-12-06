@@ -3,6 +3,19 @@ body {
   background-color: #d30e0e;
  }
 
+ #modify{
+  margin: 2em auto;
+  padding: 1em;
+  width: 30%;
+  color: #606060;
+  border: 2px solid #a3703e;
+  background-color: #fff;
+  border-radius: 10px;
+  display:inline-block;
+  text-align: center;
+  margin-left: 34%;
+  
+  }
 
 #title {
     text-align: center;

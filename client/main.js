@@ -222,6 +222,7 @@ async function addcustomer() {
       discount = true;
       price = price * 0.8; //20% off
     }
+
     var myDict = {
       flight_id: fid,
       name: name,
@@ -267,4 +268,12 @@ async function deleteCustomer(id) {
   } catch (err) {
     console.log(err.message);
   }
+}
+
+//modify info()modify.html
+async function showinfo()
+{
+  const bref = document.querySelector("#book_ref").value;
+  alert(bref);
+
 }
