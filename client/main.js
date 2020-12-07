@@ -324,7 +324,7 @@ const displayTodos = () => {
   let tableHTML = "";
   infos.map((passengers) => {
     tableHTML += `<tr key=${passengers.passenger_id}>
-    <th>${passengers.book_ref}</th>
+    <th>${passengers.passenger_id}</th>
     <th>${passengers.passenger_name}</th>
     <th>${passengers.email}</th>
     <th>${passengers.phone}</th>
@@ -345,6 +345,11 @@ async function selectInfo(bref) {
       body: JSON.stringify(body),
     });
 
+    var elem = document.getElementById("showinfo");
+    elem.insertAdjacentHTML(
+      "afterend",
+      "<div id = showBR> Booking Reference: " + bref + " </div>"
+    );
     const jsonData = await response.json();
     // alert(jsonData[0].passenger_name);
 
