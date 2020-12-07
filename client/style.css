@@ -1,9 +1,11 @@
 body {
-  background-image: url("https://lh3.googleusercontent.com/proxy/apgwEW1e13BNqZmXyIAMVgABym5BPoQSUgcRGN7MJMyePKymgsbWiKOfllZwgF3G8bapPrgK9JamjGJDN3tXTjU");
-  background-color: #d30e0e;
- }
+  background-image: url("pic/image.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* color: wheat; */
+}
 
- #modify{
+#modify {
   margin: 2em auto;
   padding: 1em;
   width: 30%;
@@ -11,52 +13,61 @@ body {
   border: 2px solid #a3703e;
   background-color: #fff;
   border-radius: 10px;
-  display:inline-block;
+  display: inline-block;
   text-align: center;
   margin-left: 34%;
-  
-  }
+  background-color: #e9b7b7;
+}
 
 #title {
-    text-align: center;
-    margin: 50px 0px 20px 0px;
-  }
-  #instruction
-  {
-    padding-left: 60%;
-    padding-right: 350px;
-  }
-  
-  
-  #input-reserve, #addmem, .input-group-append{
-    /* width: 80%; */
-    text-align: left;  
-    /* margin-left: 10%; */
-    padding-right: 40%;
-    padding-left: 40%;
-  }
-  #addmem{
-    padding-left: 3px;
-    padding-right: 3px; 
-    text-align: right;
-    margin-left: 40%;
-    color:black;
-    border: solid 2px blue;
-  }
-  
-  #reserve-list {
-    width: 80%;
-    text-align: center;
-    margin-left: 10%;
-  }
+  text-align: center;
+  margin: 50px 0px 20px 0px;
+  background-color: #db9b9b;
+}
 
-  #input-reserve > #bag, #movie, #meal, #flightID,#card_no,#name_0,#phone_0,#email_0,#age_0 
-{
+#instruction {
+  padding-left: 60%;
+  padding-right: 350px;
+  font-weight: bold;
+}
+
+#input-reserve,
+#addmem,
+.input-group-append {
+  /* width: 80%; */
+  text-align: left;
+  /* margin-left: 10%; */
+  padding-right: 40%;
+  padding-left: 40%;
+}
+#addmem {
+  padding-left: 3px;
+  padding-right: 3px;
+  text-align: right;
+  margin-left: 40%;
+  color: black;
+  border: solid 2px blue;
+}
+
+#reserve-list {
+  width: 80%;
+  text-align: center;
+  margin-left: 10%;
+}
+
+#input-reserve > #bag,
+#movie,
+#meal,
+#flightID,
+#card_no,
+#name_0,
+#phone_0,
+#email_0,
+#age_0 {
   border: solid 2px skyblue;
   padding: 10px;
 }
 
-#input-reserve > #btm
-{
+#input-reserve > #btm {
   padding-bottom: 10%;
 }

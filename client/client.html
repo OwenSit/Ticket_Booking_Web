@@ -108,20 +108,27 @@
   </div>
 
 
-
+  <div id="title">
+    <h2>Boarding Pass</h2>
+  </div>
+  <p id="bref"></p>
   <!-- dynamic table to display todo list -->
   <table class="table mt-5 text-center" id="reserve-list">
     <thead>
       <tr>
-        <th>Flight ID</th>
         <th>Name</th>
-        <th>Phone</th>
-        <th>Email</th> 
-        <th>Checking Bags</th>
-        <th>Movie option</th>
-        <th>Meal option</th>
-        <th>Price</th>       
-        <th>Delete</th>
+        <th>Passenger ID</th> 
+        <th>Ticket No</th>
+        <th>Departure Airport</th>
+        <th>Arrival Airport</th>
+        <th>Checked Bag</th>
+        <th>Boarding Time</th>
+        <th>Boarding Gate</th>
+        <th>Arrival Time</th>
+        <th>Arrival Gate</th>
+        <th>Baggage Claim</th>
+        <th>Status</th>
+
       </tr>
     </thead>
     <!-- add todos in tbody by modying the HTML in main.js -->
@@ -129,7 +136,7 @@
     </tbody>
   </table>
   <!-- End of dynamic table -->
-
+  <input type="button" value="Log Out" onclick="location.reload()" id = "addmem">
 
   
 

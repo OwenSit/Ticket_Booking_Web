@@ -10,6 +10,7 @@ tax = 0.08; //8% tax
 /******************************************************************* */
 
 let flights = [];
+var CustoInfo = [];
 
 // let myList = [];
 // var myDict = { name: "jenny", age: 23 };
@@ -247,8 +248,38 @@ async function addcustomer() {
       body: JSON.stringify(body),
     });
 
+    const info = await response.json();
+    // console.log(info[0].book_ref);
+    const bookRef = document.querySelector("#bref");
+    let bref = "Booking Reference: ";
+    bref += info[0].book_ref + "<br>";
+    bref += "Total Tickets Number: " + info.length + "<br>";
+    bref += "Flight ID: " + info[0].flight_id + "<br>";
+    bref += "Total Amount: $" + info[0].total_amount + "<br>";
+    bookRef.innerHTML = bref;
+    const todoTable = document.querySelector("#reserve-table");
+
+    // display all todos by modifying the HTML in "todo-table"
+    let tableHTML = "";
+    info.map((info) => {
+      tableHTML += `<tr key=${info.ticket_no}>
+    <th>${info.name}</th>
+    <th>${info.passenger_id}</th>
+    <th>${info.ticket_no}</th>
+    <th>${info.departure_airport}</th>
+    <th>${info.arrival_airport}</th>
+    <th>${info.checked_bag}</th>
+    <th>${parseISOString(info.boarding_time)}</th>
+    <th>${info.boarding_gate}</th>
+    <th>${parseISOString(info.arrival_time)}</th>
+    <th>${info.arrival_gate}</th>
+    <th>${info.baggage_claim}</th>
+    <th>${info.status}</th>
+    </tr>`;
+    });
+    todoTable.innerHTML = tableHTML;
     // refresh the page when inserted
-    location.reload();
+    // location.reload();
     return false;
   } catch (err) {
     console.log(err.message);
@@ -271,31 +302,28 @@ async function deleteCustomer(id) {
 }
 
 //modify info()modify.html
-async function showinfo()
-{
+async function showinfo() {
   const bref = document.querySelector("#book_ref").value;
   //alert(bref);
   selectInfo(bref);
-
 }
 
 // set global variable todos
-let infos = []
+let infos = [];
 
 // function to set customers
 const setTodos = (data) => {
   infos = data;
-}
+};
 
 // function to display customers
 const displayTodos = () => {
-  const infoTable = document.querySelector('#info-table');
+  const infoTable = document.querySelector("#info-table");
 
   // display all customers by modifying the HTML in "todo-table"
   let tableHTML = "";
-  infos.map(passengers =>{
-    tableHTML +=
-    `<tr key=${passengers.passenger_id}>
+  infos.map((passengers) => {
+    tableHTML += `<tr key=${passengers.passenger_id}>
     <th>${passengers.book_ref}</th>
     <th>${passengers.passenger_name}</th>
     <th>${passengers.email}</th>
@@ -304,19 +332,17 @@ const displayTodos = () => {
     <th><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#edit-modal" onclick="editTodo(${passengers.passenger_id})">Edit</button></th>
     <th><button class="btn btn-danger" type="button" onclick="deleteTodo(${passengers.passenger_id})">Delete</button></th>
     </tr>`;
-  })
+  });
   infoTable.innerHTML = tableHTML;
-
-}
+};
 async function selectInfo(bref) {
   // use try... catch... to catch error
   try {
-    
     const body = { bref: bref };
     const response = await fetch("http://localhost:5000/modify", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
 
     const jsonData = await response.json();
@@ -324,7 +350,6 @@ async function selectInfo(bref) {
 
     setTodos(jsonData);
     displayTodos();
-
   } catch (err) {
     console.log(err.message);
   }

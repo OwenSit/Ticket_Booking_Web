@@ -270,6 +270,10 @@ app.post("/book", async (req, res) => {
       myDict["arrival_time"] = arrival_time;
       myDict["arrival_gate"] = arrival_gate;
       myDict["baggage_claim"] = baggage_claim;
+      myDict["total_amount"] = total_amount;
+      myDict["flight_id"] = flight_id;
+      myDict["checked_bag"] = checked_bag;
+
       Res.push(myDict);
     }
     var transaction_id = randomValueHex(20);
@@ -295,7 +299,7 @@ app.post("/book", async (req, res) => {
       [transaction_id, pid, card_no, total_amount]
     );
 
-    // console.log(Res);
+    console.log(Res);
     // send the mega-list back to client:
     res.json(Res);
 
@@ -304,7 +308,6 @@ app.post("/book", async (req, res) => {
     console.log(err.message);
   }
 });
-
 
 // flight info:
 app.get("/", async (req, res) => {
@@ -331,13 +334,12 @@ app.get("/book", async (req, res) => {
 
 app.put("/modify", async (req, res) => {
   try {
-
-    const {bref} = req.body;
+    const { bref } = req.body;
     console.log(bref);
 
     const allReserve = await pool.query(
       "SELECT * FROM passengers where book_ref =$1",
-        [bref]
+      [bref]
     );
     res.json(allReserve.rows);
     //res.json("halloe from server");
@@ -392,8 +394,6 @@ app.delete("/book/:id", async (req, res) => {
   }
 });
 /****************************************************************** */
-
-
 
 // set up the server listening at port 5000 (the port number can be changed)
 app.listen(5000, () => {
