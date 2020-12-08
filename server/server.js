@@ -63,7 +63,7 @@ app.post("/book", async (req, res) => {
   try {
     // mega-list for response
     var Res = [];
-    var myDict = {};
+
     // STEP ONE: generate a new entry in the bookings table:
     const book_info = req.body;
     // console.log(book_info);
@@ -138,6 +138,7 @@ app.post("/book", async (req, res) => {
 
     // STEP TWO: create passenger entries for everybody in the passengers table:
     for (i = 0; i < book_info.length; i++) {
+      var myDict = {};
       var passenger_id = randomValueHex(20);
       let EXIst = await pool.query(
         "SELECT passenger_id FROM passengers where passenger_id=$1",
@@ -299,7 +300,7 @@ app.post("/book", async (req, res) => {
       [transaction_id, pid, card_no, total_amount]
     );
 
-    console.log(Res);
+    // console.log(Res);
     // send the mega-list back to client:
     res.json(Res);
 
