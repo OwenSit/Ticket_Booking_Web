@@ -1,38 +1,37 @@
 body {
-    background-image: url("https://lh3.googleusercontent.com/proxy/apgwEW1e13BNqZmXyIAMVgABym5BPoQSUgcRGN7MJMyePKymgsbWiKOfllZwgF3G8bapPrgK9JamjGJDN3tXTjU");
-    background-color: #d30e0e;
+  background-image: url("pic/image.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* color: wheat; */
 }
 
-#client{
-    margin: 2em auto;
-    padding: 1em;
-    width: 30%;
-    color: #606060;
-    border: 2px solid #a3703e;
-    background-color: #fff;
-    border-radius: 10px;
-    display:inline-block;
-    text-align: center;
-    margin-left: 34%;  
+#client {
+  margin: 2em auto;
+  padding: 1em;
+  width: 30%;
+  color: #606060;
+  border: 2px solid #a3703e;
+  background-color: #e9b7b7;
+  border-radius: 10px;
+  display: inline-block;
+  text-align: center;
+  margin-left: 34%;
 }
-#mod{
-    /* width: 40%;  */
-    text-align: center;
-    padding-right: 25%;
-    padding-left: 25%;
-    
+#mod {
+  /* width: 40%;  */
+  text-align: center;
+  padding-right: 25%;
+  padding-left: 25%;
 }
 
-#mod > #showinfo
-{
-    margin-right: 80%;
-    color : blue;
-    text-align: right;
-    
+#mod > #showinfo {
+  margin-right: 80%;
+  color: blue;
+  text-align: right;
 }
 
 #customer-list {
-    width: 80%;
-    text-align: center;
-    margin-left: 10%;
-  }
+  width: 80%;
+  text-align: center;
+  margin-left: 10%;
+}

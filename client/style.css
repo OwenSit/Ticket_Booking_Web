@@ -53,6 +53,16 @@ body {
   width: 80%;
   text-align: center;
   margin-left: 10%;
+  font-size: 15px;
+}
+#boarding-info {
+  text-align: center;
+  font-size: 15px;
+}
+#bref {
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
 }
 
 #input-reserve > #bag,

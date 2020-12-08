@@ -64,10 +64,10 @@ async function flightsInfo() {
       x.scheduled_arrival = parseISOString(x.scheduled_arrival);
       x.scheduled_departure = parseISOString(x.scheduled_departure);
       if (!x.stop1_airport) {
-        x.stop1_airport = "N/A";
+        x.stop1_airport = "-->";
       }
       if (!x.stop2_airport) {
-        x.stop2_airport = "N/A";
+        x.stop2_airport = "-->";
       }
     }
     displayFlights();
@@ -251,7 +251,8 @@ async function addcustomer() {
     const info = await response.json();
     // console.log(info[0].book_ref);
     const bookRef = document.querySelector("#bref");
-    let bref = "Booking Reference: ";
+    let bref =
+      "PLZ WRITE DOWN BOOKING REF FOR FUTURE INFO CHECKING<br>Booking Reference: ";
     bref += info[0].book_ref + "<br>";
     bref += "Total Tickets Number: " + info.length + "<br>";
     bref += "Flight ID: " + info[0].flight_id + "<br>";
@@ -261,22 +262,38 @@ async function addcustomer() {
 
     // display all todos by modifying the HTML in "todo-table"
     let tableHTML = "";
-    info.map((info) => {
+    for (i = 0; i < info.length; i++) {
       tableHTML += `<tr key=${info.ticket_no}>
-    <th>${info.name}</th>
-    <th>${info.passenger_id}</th>
-    <th>${info.ticket_no}</th>
-    <th>${info.departure_airport}</th>
-    <th>${info.arrival_airport}</th>
-    <th>${info.checked_bag}</th>
-    <th>${parseISOString(info.boarding_time)}</th>
-    <th>${info.boarding_gate}</th>
-    <th>${parseISOString(info.arrival_time)}</th>
-    <th>${info.arrival_gate}</th>
-    <th>${info.baggage_claim}</th>
-    <th>${info.status}</th>
+    <th>${info[i].name}</th>
+    <th>${info[i].passenger_id}</th>
+    <th>${info[i].ticket_no}</th>
+    <th>${info[i].departure_airport}</th>
+    <th>${info[i].arrival_airport}</th>
+    <th>${info[i].checked_bag}</th>
+    <th>${parseISOString(info[i].boarding_time)}</th>
+    <th>${info[i].boarding_gate}</th>
+    <th>${parseISOString(info[i].arrival_time)}</th>
+    <th>${info[i].arrival_gate}</th>
+    <th>${info[i].baggage_claim}</th>
+    <th>${info[i].status}</th>
     </tr>`;
-    });
+    }
+    // info.map((info) => {
+    //   tableHTML += `<tr key=${info.ticket_no}>
+    // <th>${info.name}</th>
+    // <th>${info.passenger_id}</th>
+    // <th>${info.ticket_no}</th>
+    // <th>${info.departure_airport}</th>
+    // <th>${info.arrival_airport}</th>
+    // <th>${info.checked_bag}</th>
+    // <th>${parseISOString(info.boarding_time)}</th>
+    // <th>${info.boarding_gate}</th>
+    // <th>${parseISOString(info.arrival_time)}</th>
+    // <th>${info.arrival_gate}</th>
+    // <th>${info.baggage_claim}</th>
+    // <th>${info.status}</th>
+    // </tr>`;
+    // });
     todoTable.innerHTML = tableHTML;
     // refresh the page when inserted
     // location.reload();
