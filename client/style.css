@@ -65,10 +65,8 @@ body {
   font-weight: bold;
 }
 
-#input-reserve > #bag,
-#movie,
-#meal,
-#flightID,
+#input-reserve > 
+#flightID_0,
 #card_no,
 #name_0,
 #phone_0,
@@ -77,7 +75,16 @@ body {
   border: solid 2px skyblue;
   padding: 10px;
 }
+#input-reserve > #after_flight{
+  padding-bottom: 10%;
+  padding-top: 10%;
 
+}
+#input-reserve > #bag, #movie, #meal, #f_plan > #flightPlan{
+  border: solid 2px skyblue;
+  padding: 10px;
+  background-color: rgb(94, 255, 234);
+}
 #input-reserve > #btm {
   padding-bottom: 10%;
 }

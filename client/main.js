@@ -78,7 +78,92 @@ async function flightsInfo() {
 
 flightsInfo();
 
+
+let fPlan = 0;
 /********************************************************************/
+//Allow user to select one way, round trip or multiple flights
+window.addEventListener('DOMContentLoaded', function(){
+
+  // チェックボックスを全て取得
+  var input_flightNum = document.querySelectorAll("input[name=tripPlan]");
+  //alert(input_flightNum.length);
+  //fPlan = input_flightNum.length;
+  if( 0 < input_flightNum.length ) {
+
+    for(var checkbox of input_flightNum) {
+      //alert("checked is "+checkbox.value);
+      checkbox.addEventListener("change",function(){
+        //alert("Change action");
+        if( this.checked ) {
+          //alert(this.value);
+          fPlan = this.value;
+          
+          //delete flightid_1 and flightid_2
+          deletefid_ifExist("flightID_1");
+          deletefid_ifExist("flightID_2");
+          deletefid_ifExist("addFid");
+          deletefid_ifExist("deleteFid");
+      
+          if(fPlan == 2)
+          {
+            addInput_of("flightID",1,"addflight");
+          }
+          else if(fPlan == 3)
+          {
+            addInput_of("flightID",1,"addflight");
+            addInput_of("flightID",2,"addflight");
+            //<button class="btn btn-warning" type="button" data-toggle="modal" data-target="#edit-modal" onclick="editTodo(${passengers.passenger_id})">Edit</button>
+            //create button of "increase # of flights"
+            var increaseF = document.createElement("input");
+            increaseF.type = "button";
+            increaseF.id =  "addFid";
+            increaseF.classList.add = "addition";
+            increaseF.value = "Increse flight";
+            increaseF.addEventListener("click", increaseFlight, false);
+            var parent = document.getElementById("incdec");
+            parent.appendChild(increaseF);
+            //create button of "decrese # of flights"
+            var decreaseF = document.createElement("input");
+            decreaseF.type = "button";
+            decreaseF.id =  "deleteFid";
+            decreaseF.classList.add = "addition";
+            decreaseF.value = "Decrease flight";
+            decreaseF.addEventListener("click", decreaseFlight, false);
+            var parent = document.getElementById("incdec");
+            parent.appendChild(decreaseF);
+
+          }         
+        }			
+      });
+    }
+  }
+});
+
+async function increaseFlight(){
+  
+  addInput_of("flightID",fPlan,"addflight");
+  fPlan++;
+  //alert("fPlan is "+fPlan);
+}
+function decreaseFlight() {
+  if(fPlan <= 1)
+  {
+    alert("Error: Cant make this action");
+    return;
+  }
+  fPlan = fPlan - 1;
+  deletefid_ifExist("flightID_"+fPlan.toString());
+  //alert("fPlan is "+fPlan);
+}
+
+
+async function deletefid_ifExist(id_name)
+{
+  if(document.getElementById(id_name) != null){
+    var list_element = document.getElementById(id_name);
+    list_element.remove();
+  }
+}
 
 // function to display todos
 const displayReserve = () => {
@@ -124,19 +209,21 @@ async function selectReserve() {
     console.log(err.message);
   }
 }
-function addInput_of(input_type) {
+function addInput_of(input_type, i, id_name) {
   var input_data = document.createElement("input");
   input_data.type = "text";
   input_data.class = "form-control";
-  input_data.id = input_type + "_" + inputnum;
-  input_data.placeholder = input_type.toUpperCase() + "-" + inputnum;
-  var parent = document.getElementById("input-reserve");
+  input_data.id = input_type + "_" + i;
+  input_data.placeholder = input_type.toUpperCase() + "-" + i;
+  var parent = document.getElementById(id_name);
   parent.appendChild(input_data);
 
   var h1 = document.getElementById(input_data.id);
   h1.style.border = "solid 2px skyblue";
   h1.style.padding = "10px";
   h1.style.width = "100%";
+
+  return input_data.id;
 }
 function addSelect_of(input_type) {
   var input_data = document.createElement("select");
@@ -162,6 +249,8 @@ function addSelect_of(input_type) {
   var h1 = document.getElementById(newId);
   h1.style.border = "solid 2px skyblue";
   h1.style.padding = "10px";
+  h1.style.backgroundColor = "rgb(94, 255, 234)";
+  
   ///////////////////////////////////
 
   return input_data.id;
@@ -174,10 +263,10 @@ function addOption(txt, va, select) {
 }
 
 function addForm() {
-  addInput_of("name");
-  addInput_of("phone");
-  addInput_of("email");
-  addInput_of("age");
+  addInput_of("name",inputnum, "input-reserve");
+  addInput_of("phone",inputnum, "input-reserve");
+  addInput_of("email",inputnum, "input-reserve");
+  addInput_of("age",inputnum, "input-reserve");
 
   var select_id = addSelect_of("bag");
   var select = document.getElementById(select_id);
@@ -204,13 +293,26 @@ function addForm() {
   inputnum++;
 }
 
-async function addcustomer() {
+async function BookFlight()
+{
+  for(let i =0; i<fPlan; i++ )
+  {
+    addcustomer(i);
+  }
+}
+
+
+function isInt(str) {
+  return !isNaN(str) && Number.isInteger(parseFloat(str));
+}
+
+async function addcustomer(index_flight) {
   let book_info = [];
-  alert("inputnum is " + inputnum);
+  //alert("inputnum is " + inputnum);
   for (let i = 0; i < inputnum; i++) {
     let price = 1000;
     var discount = false;
-    const fid = document.querySelector("#flightID").value;
+    const fid = document.querySelector("#flightID_"+index_flight).value;
     const card_no = document.querySelector("#card_no").value;
     const name = document.querySelector("#name_" + i).value;
     const pho = document.querySelector("#phone_" + i).value;
@@ -219,11 +321,26 @@ async function addcustomer() {
     var mv = document.querySelector("#movie_" + i).value;
     var ml = document.querySelector("#meal_" + i).value;
     const ag = document.querySelector("#age_" + i).value;
+    alert("index_flight: "+index_flight+" fid:"+ fid+" name: "+name);
+    if(fid == '' || card_no == '' || name == '' || pho == '' || em == '' || ag == '' )
+    {
+      alert("[Client "+i.toString()+"],Please Dont leave any blank");
+      return;
+    }
+    if(isInt(fid) == false || isInt(card_no) == false ||  isInt(pho) == false ||isInt(ag) == false )
+    {
+      alert("[Client "+i.toString()+"], Either Card Number, Flight Id, or Age is not a number");
+      return;
+    }
+    if(em.indexOf('@') == -1 || em.indexOf('.') == -1)
+    {
+      alert("[Client "+i.toString()+"], Type collect Email that inclue '@' and '.'");
+      return;
+    }
     if (ag < 18 || ag > 56) {
       discount = true;
       price = price * 0.8; //20% off
     }
-
     var myDict = {
       flight_id: fid,
       name: name,
