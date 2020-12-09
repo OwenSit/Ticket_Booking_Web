@@ -435,6 +435,46 @@ async function deleteCustomer(id) {
   }
 }
 
+async function updateTodo(id) {
+  const des = infos.filter((infos) => infos.passenger_id === id);
+  const name = document.querySelector("#edited-description-name").value;
+  const email = document.querySelector("#edited-description-email").value;
+  const phone = document.querySelector("#edited-description-phone").value;
+  const age = document.querySelector("#edited-description-age").value;
+  // check if there is any empty value:
+  if ((name == "") | (email == "") | (phone == "") | (age == "")) {
+    alert("Oops, no empty box is allowed :)");
+  } else {
+    console.log(name);
+    console.log(email);
+    console.log(phone);
+    console.log(age);
+    let passenger_id = des[0].passenger_id;
+    try {
+      // update a todo from "http://localhost:5000/todos/${id}", with "PUT" method
+      const body = {
+        passenger_id: passenger_id,
+        passenger_name: name,
+        email: email,
+        phone: phone,
+        age: age,
+      };
+      console.log(body);
+      const response = await fetch(`http://localhost:5000/modify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      // refresh the page when updated
+      location.reload();
+      console.log("hi");
+      return false;
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+}
+
 //modify info()modify.html
 async function showinfo() {
   const bref = document.querySelector("#book_ref").value;
@@ -450,10 +490,57 @@ const setTodos = (data) => {
   infos = data;
 };
 
+const editTodo = (id) => {
+  const descrip = infos.filter((infos) => infos.passenger_id === id);
+  document.querySelector("#edited-description-name").value =
+    descrip[0].passenger_name;
+  document.querySelector("#edited-description-email").value = descrip[0].email;
+  document.querySelector("#edited-description-phone").value = descrip[0].phone;
+  document.querySelector("#edited-description-age").value = descrip[0].age;
+  document
+    .querySelector("#save-edit-description")
+    .addEventListener("click", function () {
+      updateTodo(id);
+    });
+};
+
+async function deleteTodo(id) {
+  const descrip = infos.filter((infos) => infos.passenger_id === id);
+  console.log(descrip);
+  let passenger_id = descrip[0].passenger_id;
+  let book_ref = descrip[0].book_ref;
+  let name = descrip[0].passenger_name;
+  let email = descrip[0].email;
+  let phone = descrip[0].phone;
+  let age = descrip[0].age;
+  try {
+    // delete a todo from "http://localhost:5000/todos/${id}", with "DELETE" method
+    const body = {
+      passenger_id: passenger_id,
+      passenger_name: name,
+      book_ref: book_ref,
+      email: email,
+      phone: phone,
+      age: age,
+    };
+    // console.log(body);
+    const deleteTodo = await fetch(`http://localhost:5000/modify`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    // refresh the page when deleted
+    location.reload();
+    return false;
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
 // function to display customers
 const displayTodos = () => {
   const infoTable = document.querySelector("#info-table");
-
   // display all customers by modifying the HTML in "todo-table"
   let tableHTML = "";
   infos.map((passengers) => {
@@ -463,10 +550,11 @@ const displayTodos = () => {
     <th>${passengers.email}</th>
     <th>${passengers.phone}</th>
     <th>${passengers.age}</th>
-    <th><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#edit-modal" onclick="editTodo(${passengers.passenger_id})">Edit</button></th>
-    <th><button class="btn btn-danger" type="button" onclick="deleteTodo(${passengers.passenger_id})">Delete</button></th>
+    <th><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#edit-modal" onclick="editTodo('${passengers.passenger_id}')">Edit</button></th>
+    <th><button class="btn btn-danger" type="button" onclick="deleteTodo('${passengers.passenger_id}')">Delete</button></th>
     </tr>`;
   });
+  // console.log(passengers);
   infoTable.innerHTML = tableHTML;
 };
 async function selectInfo(bref) {
@@ -486,8 +574,8 @@ async function selectInfo(bref) {
     );
     const jsonData = await response.json();
     // alert(jsonData[0].passenger_name);
-
     setTodos(jsonData);
+    // console.log(infos);
     displayTodos();
   } catch (err) {
     console.log(err.message);
