@@ -1,82 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
-<head>
+  <head>
     <!--文字コード（文字化け防止、utf-8　は推奨されているコード -->
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <!--Title（ブラウザのタブに表示される）-->
     <title>Modify Ticket</title>
     <!--<a href=""></a>-->
     <!--CSSからの読み込み宣言-->
-    <link rel="stylesheet" href="modify.css" >
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-   
-</head>
+    <link rel="stylesheet" href="modify.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+  </head>
 
-
-<body>
-
-  <div id="client">
-    <a href="client.html"><strong>Booking new ticket</strong></a>
-  </div>
-  <div id = "mod"> 
-    <div id="title">
+  <body>
+    <div id="client">
+      <a href="client.html"><strong>Booking new ticket</strong></a>
+    </div>
+    <div id="mod">
+      <div id="title">
         <h2>Type your Booking Reference ID</h2>
+        <h2>Please avoid empty spaces :)</h2>
+      </div>
+      <div id="book_reference">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Booking Reference"
+          id="book_ref"
+        />
+      </div>
+      <input
+        type="button"
+        value="Show my booking info"
+        onclick="showinfo()"
+        id="showinfo"
+      />
     </div>
-    <div  id="book_reference"> 
-            <input type="text" class="form-control" placeholder="Booking Reference" id="book_ref">
-    </div>
-    <input type="button" value="Show my booking info" onclick="showinfo()" id = "showinfo">
-   </div>
 
     <!-- dynamic table to display todo list -->
     <table class="table mt-5 text-center" id="customer-list">
-        <thead>
-            <tr>
-                <th>Passenger ID</th>
-                <th>Name</th>
-                <th>Email Address</th>
-                <th>Phone Number</th>
-                <th>Age</th>
-            </tr>
-        </thead>
-        <!-- add todos in tbody by modying the HTML in main.js -->
-        <tbody id="info-table">
-        </tbody>
+      <thead>
+        <tr>
+          <th>Passenger ID</th>
+          <th>Name</th>
+          <th>Email Address</th>
+          <th>Phone Number</th>
+          <th>Age</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <!-- add todos in tbody by modying the HTML in main.js -->
+      <tbody id="info-table"></tbody>
     </table>
     <!-- End of dynamic table -->
-    
-      <!-- the popup modal, used for update the todo description -->
-    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                 <h5 class="modal-title" id="edit-todo-label">Edit Description</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                 </button>
-                </div>
-                <input type="text" class="form-control modal-body" id="edited-description">
-                <div class="modal-footer">
-                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                 <button type="button" class="btn btn-primary" id="save-edit-description">Save changes</button>
-                </div>
-            </div>
+
+    <!-- the popup modal, used for update the todo description -->
+    <div
+      class="modal fade"
+      id="edit-modal"
+      tabindex="-1"
+      aria-labelledby="editModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="edit-todo-label">
+              Edit Description<br />
+              Leave empty if not changing
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <h6>name:</h6>
+          <input
+            type="text"
+            class="form-control modal-body"
+            id="edited-description-name"
+          />
+          <h6>email:</h6>
+          <input
+            type="text"
+            class="form-control modal-body"
+            id="edited-description-email"
+          />
+          <h6>phone:</h6>
+          <input
+            type="text"
+            class="form-control modal-body"
+            id="edited-description-phone"
+          />
+          <h6>age:</h6>
+          <input
+            type="text"
+            class="form-control modal-body"
+            id="edited-description-age"
+          />
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="save-edit-description"
+            >
+              Save changes
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-  <!-- end of model -->
+    <!-- end of model -->
+  </body>
 
-
-</body>
-
-<script src="main.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-crossorigin="anonymous"></script>
-
+  <script src="main.js"></script>
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"
+  ></script>
 </html>
