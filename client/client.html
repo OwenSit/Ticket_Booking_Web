@@ -61,17 +61,18 @@
    <div  id="input-reserve"> 
 
     <form method="post" action="" id = "f_plan">
-      <div id = "flightPlan">Select Flight Plan (select)</div>
-      <label><input type="radio" name="tripPlan" value="1">One Way</label>
+      <div id = "flightPlan">*Select Flight Plan (select)</div>
+      <label><input type="radio" name="tripPlan" value="1" id="oneWay">One Way</label>
       <label><input type="radio" name="tripPlan" value="2">Round Trip</label>
       <label><input type="radio" name="tripPlan" value="3">Multiple Flights</label>
     </form>
 
 
-    <input type="text" class="form-control" placeholder="Credit Card Number" id="card_no">
-    <input type="text" class="form-control" placeholder="FLIGHTID-0" id="flightID_0">
+    <!--<input type="text" class="form-control" placeholder="Credit Card Number" id="card_no"> -->
+    <!--<input type="text" class="form-control" placeholder="FLIGHTID-0" id="flightID_0"> -->
     <div id="addflight"></div>
     <div id="incdec"></div>
+    <input type="text" class="form-control" placeholder="Credit Card Number (16 digits)" id="card_no">
     <div id = "after_flight"></div>
     <input type="text" class="form-control" placeholder="NAME-0" id="name_0">
     <input type="text" class="form-control" placeholder="PHONE-0" id="phone_0">
@@ -113,15 +114,6 @@
     <button class="btn btn-primary" type="button" onclick="BookFlight()">Book Ticket</button>
   </div>
 
-
-
-  <div id = "instruction">
-    <div>Note**</div>
-    <ul>
-      <li>If your party is more than 1, leave Booking Reference blank for the first person. We'll generate one for you</li>
-      <li>Flight ID and Booking Reference must be the same if you wish to flight with the other</li>
-    
-  </div>
 
 
   <div id="title">
