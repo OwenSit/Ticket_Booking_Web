@@ -62,7 +62,7 @@ app.use(express.json()); //req.body
 //ROUTES
 app.get("/refreshDB", async (req, res) => {
   try {
-    
+
     var sql = fs.readFileSync('make_table.sql').toString();
     const comitRefresh = await pool.query(sql);
     //console.log(sql);
@@ -338,14 +338,14 @@ app.get("/", async (req, res) => {
 });
 /********************************************************************* */
 //get all todo
-app.get("/book", async (req, res) => {
-  try {
-    const allReserve = await pool.query(`SELECT * FROM ticket`);
-    res.json(allReserve.rows);
-  } catch (err) {
-    console.log(err.message);
-  }
-});
+// app.get("/book", async (req, res) => {
+//   try {
+//     const allReserve = await pool.query(`SELECT * FROM ticket`);
+//     res.json(allReserve.rows);
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// });
 
 app.put("/modify", async (req, res) => {
   try {
@@ -420,50 +420,50 @@ app.delete("/modify", async (req, res) => {
 });
 
 //get a todo by id
-app.get("/book/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const reserve = await pool.query(
-      `SELECT * FROM ticket 
-                                   WHERE id = $1`,
-      [id]
-    );
-    res.json(reserve.rows);
-  } catch (err) {
-    console.log(err.message);
-  }
-});
+// app.get("/book/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const reserve = await pool.query(
+//       `SELECT * FROM ticket 
+//                                    WHERE id = $1`,
+//       [id]
+//     );
+//     res.json(reserve.rows);
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// });
 
 //update a todo by id
-app.put("/book/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name } = req.body;
-    const updateReserve = await pool.query(
-      `UPDATE ticket SET name = $1 
-                                         WHERE id = $2`,
-      [name, id]
-    );
-    res.json("Todo was updated!");
-  } catch (err) {
-    console.error(err.message);
-  }
-});
+// app.put("/book/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { name } = req.body;
+//     const updateReserve = await pool.query(
+//       `UPDATE ticket SET name = $1 
+//                                          WHERE id = $2`,
+//       [name, id]
+//     );
+//     res.json("Todo was updated!");
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// });
 
 //delete a todo by id
-app.delete("/book/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const deleteReserve = await pool.query(
-      `DELETE FROM ticket 
-                                         WHERE id = $1`,
-      [id]
-    );
-    res.json("Todo was deleted!");
-  } catch (err) {
-    console.log(err.message);
-  }
-});
+// app.delete("/book/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const deleteReserve = await pool.query(
+//       `DELETE FROM ticket 
+//                                          WHERE id = $1`,
+//       [id]
+//     );
+//     res.json("Todo was deleted!");
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// });
 /****************************************************************** */
 
 // set up the server listening at port 5000 (the port number can be changed)
