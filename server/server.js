@@ -3,6 +3,8 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 var crypto = require("crypto");
+var fs = require('fs');
+
 
 function parseISOString(s) {
   var b = s.split(/\D+/);
@@ -58,6 +60,17 @@ app.use(cors());
 app.use(express.json()); //req.body
 
 //ROUTES
+app.get("/refreshDB", async (req, res) => {
+  try {
+    
+    var sql = fs.readFileSync('make_table.sql').toString();
+    const comitRefresh = await pool.query(sql);
+    //console.log(sql);
+    res.json("refresh successfully!");
+  } catch (err) {
+    console.log(err.message);
+  }
+});
 
 app.post("/book", async (req, res) => {
   try {

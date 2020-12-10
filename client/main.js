@@ -18,6 +18,22 @@ var CustoInfo = [];
 // console.log(myList[0].age);
 
 // function to set todos
+
+async function refreshDB() {
+  try {
+    // GET all todos from "http://localhost:5000/todos"
+    const response = await fetch("http://localhost:5000/refreshDB");
+    const jsonData = await response.json();
+    
+    alert(jsonData);
+
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+
+
 const setFlights = (data) => {
   flights = data;
 };
@@ -200,23 +216,23 @@ const displayReserve = () => {
 };
 
 // select all the reserve when the codes first run
-selectReserve();
+// selectReserve();
 
-// The following are async function to select, insert, update and delete todos
-// select all the todos
-async function selectReserve() {
-  // use try... catch... to catch error 
-  try {
-    // GET all todos from "http://localhost:5000/todos"
-    const response = await fetch("http://localhost:5000/book");
-    const jsonData = await response.json();
+// // The following are async function to select, insert, update and delete todos
+// // select all the todos
+// async function selectReserve() {
+//   // use try... catch... to catch error 
+//   try {
+//     // GET all todos from "http://localhost:5000/todos"
+//     const response = await fetch("http://localhost:5000/book");
+//     const jsonData = await response.json();
 
-    setReserve(jsonData);
-    displayReserve();
-  } catch (err) {
-    console.log(err.message);
-  }
-}
+//     setReserve(jsonData);
+//     displayReserve();
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// }
 function addInput_of(input_type, i, id_name) {
   var input_data = document.createElement("input");
   input_data.type = "text";
