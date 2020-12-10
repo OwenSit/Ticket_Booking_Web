@@ -416,7 +416,7 @@ async function addcustomer() {
     bref += "Total Amount: $" + info[0].total_amount + "<br>";
     bookRef.innerHTML = bref;
     const todoTable = document.querySelector("#reserve-table");
-
+    
     // display all todos by modifying the HTML in "todo-table"
     let tableHTML = "";
     for (i = 0; i < info.length; i++) {
@@ -454,6 +454,10 @@ async function addcustomer() {
     todoTable.innerHTML = tableHTML;
     // refresh the page when inserted
     // location.reload();
+    var h1 = document.getElementById("bref");
+    h1.style.border = "solid 2px red";
+    h1.style.padding = "10px";
+    h1.style.width = "100%";
     return false;
   } catch (err) {
     console.log(err.message);
@@ -599,19 +603,24 @@ const displayTodos = () => {
 };
 async function selectInfo(bref) {
   // use try... catch... to catch error
+  deletefid_ifExist("showBR"); //delete the previous id that showBR if it exists
   try {
     const body = { bref: bref };
     const response = await fetch("http://localhost:5000/modify", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
-    });
-
+    });  
     var elem = document.getElementById("showinfo");
     elem.insertAdjacentHTML(
       "afterend",
       "<div id = showBR> Booking Reference: " + bref + " </div>"
     );
+    //adjsut looks by css dynamically
+    var h1 = document.getElementById("showBR");
+    h1.style.border = "solid 2px red";
+    h1.style.padding = "10px";
+    h1.style.width = "100%";
     const jsonData = await response.json();
     // alert(jsonData[0].passenger_name);
     setTodos(jsonData);
