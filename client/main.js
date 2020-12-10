@@ -99,9 +99,10 @@ window.addEventListener('DOMContentLoaded', function(){
           fPlan = this.value;
           
           //delete flightid_1 and flightid_2
-          deletefid_ifExist("flightID_0");
-          deletefid_ifExist("flightID_1");
-          deletefid_ifExist("flightID_2");
+          alert("fPlan:"+fPlan);
+          for(let i =0 ; i <= fPlan; i++){
+            deletefid_ifExist("flightID_"+i.toString());
+          }
           deletefid_ifExist("addFid");
           deletefid_ifExist("deleteFid");
           
@@ -152,7 +153,7 @@ async function increaseFlight(){
   fPlan++;
   //alert("fPlan is "+fPlan);
 }
-function decreaseFlight() {
+async function decreaseFlight() {
   if(fPlan <= 1)
   {
     alert("Error: Cant make this action");
