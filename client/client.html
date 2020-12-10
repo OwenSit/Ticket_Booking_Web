@@ -1,33 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
-<head>
+  <head>
     <!--文字コード（文字化け防止、utf-8　は推奨されているコード -->
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <!--Title（ブラウザのタブに表示される）-->
     <title>Booking Ticket</title>
     <!--<a href=""></a>-->
     <!--CSSからの読み込み宣言-->
-    <link rel="stylesheet" href="style.css" >
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-   
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+  </head>
 
-</head>
+    <div id="modify">
+      <a href="modify.html"
+        ><strong>CUSTOMER & CLERK<br />Check & Edit your Booking Info<br /></strong
+        ><span>(Please Provide Booking Reference)</span></a
+      >
+    </div>
+    <div class="input-group-append1">
+      <button class="btn btn-danger" type="button" onclick="refreshDB()">
+        Refresh DB!
+      </button>
+    </div>
 
-
-<body>
-  
-  <button class="btn btn-primary" type="button" onclick="refreshDB()">Refresh DB</button>
-  
-  <div id="modify">
-    <a href="modify.html"><strong>CUSTOMER<br>Check your Booking Info<br></strong><span>(if you have Booking Reference)</span></a>
-  </div>
-
-  <div id="title">
-    <h2>Flights Information</h2>
-  </div>
+    <div id="title">
+      <h2>Flights Information</h2>
+    </div>
     <!-- dynamic table to display todo list -->
     <table class="table mt-5 text-center" id="reserve-list">
       <thead>
@@ -35,125 +38,158 @@
           <th>Flight ID</th>
           <th>Departure</th>
           <th>Arrival</th>
-          <th>Departing_airport</th> 
-          <th>stop1_airport</th>
-          <th>stop2_airport</th>
+          <th>Departing_airport</th>
+          <!-- <th>stop1_airport</th> DB -->
+          <!-- <th>stop2_airport</th> -->
           <th>Arrival_airport</th>
-          <th>seats_available</th>       
+          <th>seats_available</th>
           <th>status</th>
         </tr>
       </thead>
       <!-- add todos in tbody by modying the HTML in main.js -->
-      <tbody id="flight-table">
-      </tbody>
+      <tbody id="flight-table"></tbody>
     </table>
     <!-- End of dynamic table -->
 
+    <!-- Title -->
+    <div id="title">
+      <h2>Reservation</h2>
+    </div>
 
-  <!-- Title -->
-  <div id="title">
-    <h2>Reservation</h2>
-  </div>
+    <!-- todo insert input box and add button -->
+    <div id="input-reserve">
+      <form method="post" action="" id="f_plan">
+        <div id="flightPlan">*Select Flight Plan (Select)</div>
+        <label
+          ><input type="radio" name="tripPlan" value="1" id="oneWay" />One
+          Way</label
+        >
+        <label
+          ><input type="radio" name="tripPlan" value="2" />Round Trip</label
+        >
+        <label
+          ><input type="radio" name="tripPlan" value="3" />Multiple
+          Flights</label
+        >
+      </form>
 
-  <!-- todo insert input box and add button -->
-   <div  id="input-reserve"> 
+      <!--<input type="text" class="form-control" placeholder="Credit Card Number" id="card_no"> -->
+      <!--<input type="text" class="form-control" placeholder="FLIGHTID-0" id="flightID_0"> -->
+      <div id="addflight"></div>
+      <div id="incdec"></div>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Credit Card Number (16 digits)"
+        id="card_no"
+      />
+      <div id="after_flight"></div>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="NAME-0"
+        id="name_0"
+      />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="PHONE-0"
+        id="phone_0"
+      />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="EMAIL-0"
+        id="email_0"
+      />
+      <input type="text" class="form-control" placeholder="AGE-0" id="age_0" />
 
-    <form method="post" action="" id = "f_plan">
-      <div id = "flightPlan">*Select Flight Plan (Select)</div>
-      <label><input type="radio" name="tripPlan" value="1" id="oneWay">One Way</label>
-      <label><input type="radio" name="tripPlan" value="2">Round Trip</label>
-      <label><input type="radio" name="tripPlan" value="3">Multiple Flights</label>
-    </form>
-
-
-    <!--<input type="text" class="form-control" placeholder="Credit Card Number" id="card_no"> -->
-    <!--<input type="text" class="form-control" placeholder="FLIGHTID-0" id="flightID_0"> -->
-    <div id="addflight"></div>
-    <div id="incdec"></div>
-    <input type="text" class="form-control" placeholder="Credit Card Number (16 digits)" id="card_no">
-    <div id = "after_flight"></div>
-    <input type="text" class="form-control" placeholder="NAME-0" id="name_0">
-    <input type="text" class="form-control" placeholder="PHONE-0" id="phone_0">
-    <input type="text" class="form-control" placeholder="EMAIL-0" id="email_0"> 
-    <input type="text" class="form-control" placeholder="AGE-0" id="age_0">
-
-
-    <div id = "bag">BAG-0 (Select)</div>
-    <select id="bag_0" class="bagQuantity">
+      <div id="bag">BAG-0 (Select)</div>
+      <select id="bag_0" class="bagQuantity">
         <option value="0" selected="">0</option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
         <option value="4">4</option>
-    </select>
+      </select>
 
-    
-    <div id = "movie">MOVIE-0 (Select)</div>
-    <select id="movie_0" class="movieSelect">
+      <div id="movie">MOVIE-0 (Select)</div>
+      <select id="movie_0" class="movieSelect">
         <option value="N" selected="">No</option>
         <option value="Y">Yes</option>
-    </select>
+      </select>
 
-
-    <div id = "meal">MEAL-0 (Select)</div>
-    <select id="meal_0" class="mealSelect">
+      <div id="meal">MEAL-0 (Select)</div>
+      <select id="meal_0" class="mealSelect">
         <option value="N" selected="">No</option>
         <option value="Y">Yes</option>
-    </select>
+      </select>
 
-    <div id ="btm"></div>
+      <div id="btm"></div>
+    </div>
 
-  </div>  
+    <!-- end of insert form -->
 
-  <!-- end of insert form -->
+    <!-- <input type="button" value="Add Member" onclick="addForm()" id="addmem" />
+    /////////////// -->
+    <div class="input-group-append">
+      <button class="btn btn-light" type="button" onclick="addForm()">
+        Add Member
+      </button>
+    </div>
+    <div class="input-group-append">
+      <button class="btn btn-primary" type="button" onclick="addcustomer()">
+        Book Ticket
+      </button>
+    </div>
 
-  <input type="button" value="Add Member" onclick="addForm()" id = "addmem">  <!--///////////////--> 
-  <div class="input-group-append">
-    <button class="btn btn-primary" type="button" onclick="addcustomer()">Book Ticket</button>
-  </div>
+    <div id="title">
+      <h2>Ticket Infomation</h2>
+    </div>
+    <p id="bref"></p>
+    <!-- dynamic table to display todo list -->
+    <table class="table mt-5 text-center" id="boarding-info">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Passenger ID</th>
+          <th>Ticket No</th>
+          <th>Departure Airport</th>
+          <th>Arrival Airport</th>
+          <th>Checked Bag</th>
+          <th>Boarding Time</th>
+          <th>Boarding Gate</th>
+          <th>Arrival Time</th>
+          <th>Arrival Gate</th>
+          <th>Baggage Claim</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <!-- add todos in tbody by modying the HTML in main.js -->
+      <tbody id="reserve-table"></tbody>
+    </table>
+    <!-- End of dynamic table -->
+    <div class="input-group-append1">
+      <button class="btn btn-warning" type="button" onclick="location.reload()">
+        Log Out
+      </button>
+    </div>
+  </body>
 
-
-
-  <div id="title">
-    <h2>Ticket Infomation</h2>
-  </div>
-  <p id="bref"></p>
-  <!-- dynamic table to display todo list -->
-  <table class="table mt-5 text-center" id="boarding-info">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Passenger ID</th> 
-        <th>Ticket No</th>
-        <th>Departure Airport</th>
-        <th>Arrival Airport</th>
-        <th>Checked Bag</th>
-        <th>Boarding Time</th>
-        <th>Boarding Gate</th>
-        <th>Arrival Time</th>
-        <th>Arrival Gate</th>
-        <th>Baggage Claim</th>
-        <th>Status</th>
-
-      </tr>
-    </thead>
-    <!-- add todos in tbody by modying the HTML in main.js -->
-    <tbody id="reserve-table">
-    </tbody>
-  </table>
-  <!-- End of dynamic table -->
-  <input type="button" value="Log Out" onclick="location.reload()" id = "addmem">
-
-  
-
-</body>
-
-<script src="main.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-crossorigin="anonymous"></script>
-
+  <script src="main.js"></script>
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"
+  ></script>
 </html>

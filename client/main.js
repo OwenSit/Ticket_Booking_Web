@@ -24,15 +24,13 @@ async function refreshDB() {
     // GET all todos from "http://localhost:5000/todos"
     const response = await fetch("http://localhost:5000/refreshDB");
     const jsonData = await response.json();
-    
-    alert(jsonData);
 
+    alert(jsonData);
+    location.reload();
   } catch (err) {
     console.log(err.message);
   }
 }
-
-
 
 const setFlights = (data) => {
   flights = data;
@@ -54,8 +52,6 @@ const displayFlights = () => {
       <th>${flights.scheduled_departure}</th>
       <th>${flights.scheduled_arrival}</th>
       <th>${flights.departure_airport}</th>
-      <th>${flights.stop1_airport}</th>
-      <th>${flights.stop2_airport}</th>
       <th>${flights.arrival_airport}</th>
       <th>${flights.seats_available}</th>
       <th>${flights.status}</th>
@@ -64,7 +60,9 @@ const displayFlights = () => {
   });
   todoTable.innerHTML = tableHTML;
 };
-
+//lines remove from above
+//<th>${flights.stop1_airport}</th>
+//<th>${flights.stop2_airport}</th>
 var x;
 // select all the flights info
 async function flightsInfo() {
@@ -94,53 +92,45 @@ async function flightsInfo() {
 
 flightsInfo();
 
-
 let fPlan = 0;
 /********************************************************************/
 //Allow user to select one way, round trip or multiple flights
-window.addEventListener('DOMContentLoaded', function(){
-  
+window.addEventListener("DOMContentLoaded", function () {
   // チェックボックスを全て取得
   var input_flightNum = document.querySelectorAll("input[name=tripPlan]");
   //alert(input_flightNum.length);
   //fPlan = input_flightNum.length;
-  if( 0 < input_flightNum.length ) {
-
-    for(var checkbox of input_flightNum) {
+  if (0 < input_flightNum.length) {
+    for (var checkbox of input_flightNum) {
       //alert("checked is "+checkbox.value);
-      checkbox.addEventListener("change",function(){
+      checkbox.addEventListener("change", function () {
         //alert("Change action");
-        if( this.checked ) {
+        if (this.checked) {
           //alert(this.value);
           fPlan = this.value;
-          
+
           //delete flightid_1 and flightid_2
           //alert("fPlan:"+fPlan);
-          for(let i =0 ; i <= fPlan; i++){
-            deletefid_ifExist("flightID_"+i.toString());
+          for (let i = 0; i <= fPlan; i++) {
+            deletefid_ifExist("flightID_" + i.toString());
           }
           deletefid_ifExist("addFid");
           deletefid_ifExist("deleteFid");
-          
-          if(fPlan == 1)
-          {
-            addInput_of("flightID",0,"addflight");
-          }
-          else if(fPlan == 2)
-          {
-            addInput_of("flightID",0,"addflight");
-            addInput_of("flightID",1,"addflight");
-          }
-          else if(fPlan == 3)
-          {
-            addInput_of("flightID",0,"addflight");
-            addInput_of("flightID",1,"addflight");
-            addInput_of("flightID",2,"addflight");
+
+          if (fPlan == 1) {
+            addInput_of("flightID", 0, "addflight");
+          } else if (fPlan == 2) {
+            addInput_of("flightID", 0, "addflight");
+            addInput_of("flightID", 1, "addflight");
+          } else if (fPlan == 3) {
+            addInput_of("flightID", 0, "addflight");
+            addInput_of("flightID", 1, "addflight");
+            addInput_of("flightID", 2, "addflight");
             //<button class="btn btn-warning" type="button" data-toggle="modal" data-target="#edit-modal" onclick="editTodo(${passengers.passenger_id})">Edit</button>
             //create button of "increase # of flights"
             var increaseF = document.createElement("input");
             increaseF.type = "button";
-            increaseF.id =  "addFid";
+            increaseF.id = "addFid";
             increaseF.classList.add = "addition";
             increaseF.value = "Increse flight";
             increaseF.addEventListener("click", increaseFlight, false);
@@ -149,41 +139,36 @@ window.addEventListener('DOMContentLoaded', function(){
             //create button of "decrese # of flights"
             var decreaseF = document.createElement("input");
             decreaseF.type = "button";
-            decreaseF.id =  "deleteFid";
+            decreaseF.id = "deleteFid";
             decreaseF.classList.add = "addition";
             decreaseF.value = "Decrease flight";
             decreaseF.addEventListener("click", decreaseFlight, false);
             var parent = document.getElementById("incdec");
             parent.appendChild(decreaseF);
-
-          }         
-        }			
+          }
+        }
       });
     }
   }
 });
 
-async function increaseFlight(){
-  
-  addInput_of("flightID",fPlan,"addflight");
+async function increaseFlight() {
+  addInput_of("flightID", fPlan, "addflight");
   fPlan++;
   //alert("fPlan is "+fPlan);
 }
 async function decreaseFlight() {
-  if(fPlan <= 1)
-  {
+  if (fPlan <= 1) {
     alert("Error: Cant make this action");
     return;
   }
   fPlan = fPlan - 1;
-  deletefid_ifExist("flightID_"+fPlan.toString());
+  deletefid_ifExist("flightID_" + fPlan.toString());
   //alert("fPlan is "+fPlan);
 }
 
-
-async function deletefid_ifExist(id_name)
-{
-  if(document.getElementById(id_name) != null){
+async function deletefid_ifExist(id_name) {
+  if (document.getElementById(id_name) != null) {
     var list_element = document.getElementById(id_name);
     list_element.remove();
   }
@@ -221,7 +206,7 @@ const displayReserve = () => {
 // // The following are async function to select, insert, update and delete todos
 // // select all the todos
 // async function selectReserve() {
-//   // use try... catch... to catch error 
+//   // use try... catch... to catch error
 //   try {
 //     // GET all todos from "http://localhost:5000/todos"
 //     const response = await fetch("http://localhost:5000/book");
@@ -274,7 +259,7 @@ function addSelect_of(input_type) {
   h1.style.border = "solid 2px skyblue";
   h1.style.padding = "10px";
   h1.style.backgroundColor = "rgb(94, 255, 234)";
-  
+
   ///////////////////////////////////
 
   return input_data.id;
@@ -287,10 +272,10 @@ function addOption(txt, va, select) {
 }
 
 function addForm() {
-  addInput_of("name",inputnum, "input-reserve");
-  addInput_of("phone",inputnum, "input-reserve");
-  addInput_of("email",inputnum, "input-reserve");
-  addInput_of("age",inputnum, "input-reserve");
+  addInput_of("name", inputnum, "input-reserve");
+  addInput_of("phone", inputnum, "input-reserve");
+  addInput_of("email", inputnum, "input-reserve");
+  addInput_of("age", inputnum, "input-reserve");
 
   var select_id = addSelect_of("bag");
   var select = document.getElementById(select_id);
@@ -317,8 +302,6 @@ function addForm() {
   inputnum++;
 }
 
-
-
 function isInt(str) {
   return !isNaN(str) && Number.isInteger(parseFloat(str));
 }
@@ -326,21 +309,19 @@ function isInt(str) {
 async function addcustomer() {
   let book_info = [];
   //alert("inputnum is " + inputnum);
-  for(let i =0; i<fPlan; i++ )
-  {
+  for (let i = 0; i < fPlan; i++) {
     //boolet proof the 4 digit of fid
-    const fid = document.querySelector("#flightID_"+i).value;
-    if(fid.length !=4 )
-    {
-      alert("[Flight "+i.toString()+"],Please fill 4 digit");
+    const fid = document.querySelector("#flightID_" + i).value;
+    if (fid.length != 4) {
+      alert("[Flight " + i.toString() + "],Please fill 4 digit");
       return;
     }
   }
-  for(let index_flight =0; index_flight<fPlan; index_flight++ ){
+  for (let index_flight = 0; index_flight < fPlan; index_flight++) {
     for (let i = 0; i < inputnum; i++) {
       let price = 1000;
       var discount = false;
-      const fid = document.querySelector("#flightID_"+index_flight).value;
+      const fid = document.querySelector("#flightID_" + index_flight).value;
       const card_no = document.querySelector("#card_no").value;
       const name = document.querySelector("#name_" + i).value;
       const pho = document.querySelector("#phone_" + i).value;
@@ -351,34 +332,55 @@ async function addcustomer() {
       const ag = document.querySelector("#age_" + i).value;
       //alert("index_flight: "+index_flight+" fid:"+ fid+" name: "+name);
 
-
-      if(card_no.length != 16 ){
-        alert("[Client "+i.toString()+"],  'Credit Card must be 16 digits'");
+      if (card_no.length != 16) {
+        alert(
+          "[Client " + i.toString() + "],  'Credit Card must be 16 digits'"
+        );
         return;
       }
-      if(fid == '' || card_no == '' || name == '' || pho == '' || em == '' || ag == '' ){
-        alert("[Client "+i.toString()+"],  'Please Dont leave any blank'");
+      if (
+        fid == "" ||
+        card_no == "" ||
+        name == "" ||
+        pho == "" ||
+        em == "" ||
+        ag == ""
+      ) {
+        alert("[Client " + i.toString() + "],  'Please Dont leave any blank'");
         return;
       }
-      if(isInt(fid) == false || isInt(card_no) == false ||  isInt(pho) == false ||isInt(ag) == false ){
-        alert("[Client "+i.toString()+"],  'Card Number, Flight Id, or Age is not a number'");
+      if (
+        isInt(fid) == false ||
+        isInt(card_no) == false ||
+        isInt(pho) == false ||
+        isInt(ag) == false
+      ) {
+        alert(
+          "[Client " +
+            i.toString() +
+            "],  'Card Number, Flight Id, or Age is not a number'"
+        );
         return;
       }
-      if(em.indexOf('@') == -1 || em.indexOf('.') == -1){
-        alert("[Client "+i.toString()+"],  'Type collect Email that inclue '@' and '.''");
+      if (em.indexOf("@") == -1 || em.indexOf(".") == -1) {
+        alert(
+          "[Client " +
+            i.toString() +
+            "],  'Type collect Email that inclue '@' and '.''"
+        );
         return;
       }
       if (ag < 18 || ag > 56) {
         discount = true;
         price = price * 0.8; //20% off
       }
-      if(mv == "Y"){
+      if (mv == "Y") {
         price = price + 10;
       }
-      if(ml == "Y"){
+      if (ml == "Y") {
         price = price + 20;
       }
-      price = price + 50*Number(bg) ; 
+      price = price + 50 * Number(bg);
 
       var myDict = {
         flight_id: fid,
@@ -392,7 +394,7 @@ async function addcustomer() {
         discount: discount,
         amount: price,
         card_no: card_no,
-        party: inputnum
+        party: inputnum,
       };
       // console.log(myDict);
       book_info.push(myDict);
@@ -420,8 +422,8 @@ async function addcustomer() {
     bref += "Total Amount: $" + info[0].total_amount + "<br>";
     bookRef.innerHTML = bref;
     const todoTable = document.querySelector("#reserve-table");
-    
-    // display all info and flight by modifying the HTML 
+
+    // display all info and flight by modifying the HTML
     let tableHTML = "";
     for (i = 0; i < info.length; i++) {
       tableHTML += `<tr key=${info.ticket_no}>
@@ -555,21 +557,11 @@ const editTodo = (id) => {
 async function deleteTodo(id) {
   const descrip = infos.filter((infos) => infos.passenger_id === id);
   console.log(descrip);
-  let passenger_id = descrip[0].passenger_id;
-  let book_ref = descrip[0].book_ref;
-  let name = descrip[0].passenger_name;
-  let email = descrip[0].email;
-  let phone = descrip[0].phone;
-  let age = descrip[0].age;
+  let ticket_no = descrip[0].ticket_no;
   try {
     // delete a todo from "http://localhost:5000/todos/${id}", with "DELETE" method
     const body = {
-      passenger_id: passenger_id,
-      passenger_name: name,
-      book_ref: book_ref,
-      email: email,
-      phone: phone,
-      age: age,
+      ticket_no: ticket_no,
     };
     // console.log(body);
     const deleteTodo = await fetch(`http://localhost:5000/modify`, {
@@ -578,6 +570,8 @@ async function deleteTodo(id) {
       body: JSON.stringify(body),
     });
 
+    const jsonData = await deleteTodo.json();
+    alert(jsonData);
     // refresh the page when deleted
     location.reload();
     return false;
@@ -593,13 +587,17 @@ const displayTodos = () => {
   let tableHTML = "";
   infos.map((passengers) => {
     tableHTML += `<tr key=${passengers.passenger_id}>
-    <th>${passengers.passenger_id}</th>
     <th>${passengers.passenger_name}</th>
+    <th>${passengers.passenger_id}</th>
+    <th>${passengers.flight_id}</th>
+    <th>${passengers.status}</th>
+    <th>${passengers.ticket_no}</th>
     <th>${passengers.email}</th>
     <th>${passengers.phone}</th>
     <th>${passengers.age}</th>
     <th><button class="btn btn-warning" type="button" data-toggle="modal" data-target="#edit-modal" onclick="editTodo('${passengers.passenger_id}')">Edit</button></th>
     <th><button class="btn btn-danger" type="button" onclick="deleteTodo('${passengers.passenger_id}')">Delete</button></th>
+    <th><button class="btn btn-success" type="button" onclick="deleteTodo('${passengers.passenger_id}')">Check In</button></th>
     </tr>`;
   });
   // console.log(passengers);
@@ -614,7 +612,7 @@ async function selectInfo(bref) {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
-    });  
+    });
     var elem = document.getElementById("showinfo");
     elem.insertAdjacentHTML(
       "afterend",

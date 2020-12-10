@@ -15,7 +15,7 @@ body {
   border-radius: 10px;
   display: inline-block;
   text-align: center;
-  margin-left: 34%;
+  margin-left: 35%;
   background-color: #e9b7b7;
 }
 
@@ -25,15 +25,21 @@ body {
   background-color: #db9b9b;
 }
 
-
 #input-reserve,
 #addmem,
 .input-group-append {
   /* width: 80%; */
   text-align: left;
-  /* margin-left: 10%; */
+  margin-bottom: 5px;
   padding-right: 40%;
   padding-left: 40%;
+}
+.input-group-append1 {
+  /* width: 80%; */
+  text-align: center;
+  /* margin-bottom: 0px; */
+  /* padding-right: 40%; */
+  /* padding-left: 40%; */
 }
 #addmem {
   padding-left: 3px;
@@ -63,8 +69,7 @@ body {
   width :100%; */
 }
 
-#input-reserve > 
-#flightID_0,
+#input-reserve > #flightID_0,
 #card_no,
 #name_0,
 #phone_0,
@@ -73,12 +78,14 @@ body {
   border: solid 2px skyblue;
   padding: 10px;
 }
-#input-reserve > #after_flight{
+#input-reserve > #after_flight {
   padding-bottom: 10%;
   padding-top: 10%;
-
 }
-#input-reserve > #bag, #movie, #meal, #f_plan > #flightPlan{
+#input-reserve > #bag,
+#movie,
+#meal,
+#f_plan > #flightPlan {
   border: solid 2px skyblue;
   padding: 10px;
   background-color: rgb(94, 255, 234);

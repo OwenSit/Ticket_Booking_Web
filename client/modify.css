@@ -34,6 +34,10 @@ body {
   width: 80%;
   text-align: center;
   margin-left: 10%;
+  font-size: 18px;
+}
+#modify {
+  text-align: center;
 }
 
 h6 {

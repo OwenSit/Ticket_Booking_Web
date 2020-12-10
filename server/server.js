@@ -3,8 +3,7 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 var crypto = require("crypto");
-var fs = require('fs');
-
+var fs = require("fs");
 
 function parseISOString(s) {
   var b = s.split(/\D+/);
@@ -62,8 +61,7 @@ app.use(express.json()); //req.body
 //ROUTES
 app.get("/refreshDB", async (req, res) => {
   try {
-
-    var sql = fs.readFileSync('make_table.sql').toString();
+    var sql = fs.readFileSync("make_table.sql").toString();
     const comitRefresh = await pool.query(sql);
     //console.log(sql);
     res.json("refresh successfully!");
@@ -150,13 +148,12 @@ app.post("/book", async (req, res) => {
       [book_ref, total_amount]
     );
 
-    
     // STEP TWO: create passenger entries for everybody in the passengers table:
     for (i = 0; i < book_info.length; i++) {
       var flight_id = book_info[i].flight_id;
       var myDict = {};
       var passenger_id = randomValueHex(20);
-      
+
       let EXIst = await pool.query(
         "SELECT passenger_id FROM passengers where passenger_id=$1",
         [passenger_id]
@@ -180,20 +177,18 @@ app.post("/book", async (req, res) => {
       let phone = await book_info[i].phone;
       let age = await book_info[i].age;
 
-      
-      if(i < book_info[0].party){
+      if (i < book_info[0].party) {
         pass_ids[i] = passenger_id;
         await pool.query(
           "INSERT INTO passengers (passenger_id, book_ref, passenger_name, email, phone, age) VALUES($1,$2,$3,$4,$5,$6)",
           [passenger_id, book_ref, passenger_name, email, phone, age]
         );
-      }
-      else{        
+      } else {
         num = i;
-        while(num >= book_info[0].party){
+        while (num >= book_info[0].party) {
           num = num - book_info[0].party;
-        }       
-        passenger_id = pass_ids[num];      
+        }
+        passenger_id = pass_ids[num];
       }
 
       // inserting into tickets table:
@@ -343,7 +338,7 @@ app.post("/book", async (req, res) => {
 app.get("/", async (req, res) => {
   try {
     const flightInfo = await pool.query(
-      `SELECT * FROM flights ORDER BY flight_id ASC`
+      `SELECT * FROM flights WHERE seats_available>0 ORDER BY flight_id ASC`
     );
     res.json(flightInfo.rows);
     // console.log(typeof flightInfo.rows[0].scheduled_departure);
@@ -368,9 +363,10 @@ app.put("/modify", async (req, res) => {
     console.log(bref);
 
     const allReserve = await pool.query(
-      "SELECT * FROM passengers where book_ref =$1",
+      "SELECT * FROM tickets JOIN passengers ON tickets.book_ref=passengers.book_ref JOIN ticket_flights ON tickets.ticket_no=ticket_flights.ticket_no JOIN flights on ticket_flights.flight_id=flights.flight_id WHERE tickets.book_ref =$1 AND tickets.deleted =FALSE ",
       [bref]
     );
+    // console.log(allReserve);
     res.json(allReserve.rows);
     //res.json("halloe from server");
   } catch (err) {
@@ -402,33 +398,12 @@ app.post("/modify", async (req, res) => {
 app.delete("/modify", async (req, res) => {
   try {
     const custoInfo = req.body;
+    ticket_no = custoInfo.ticket_no;
     console.log(custoInfo);
-    let passenger_id = custoInfo.passenger_id;
-    let passenger_name = custoInfo.passenger_name;
-    let email = custoInfo.email;
-    let phone = custoInfo.phone;
-    let age = custoInfo.age;
-    let book_ref = custoInfo.book_ref;
-
-    // delete transaction entry:
-    //   await pool.query(
-    //     "DELETE FROM transactions WHERE passenger_id=$1",
-    //     [passenger_id]
-    //   );
-
-    //   // delete passenger entry:
-    // await pool.query(
-    //   "DELETE FROM passengers WHERE passenger_id=$1",
-    //   [passenger_id]
-    // );
-
-    //   // delete ticket:
-    //   await pool.query(
-    //     "DELETE FROM tickets WHERE passenger_id=$1 AND ",
-    //     [passenger_id]
-    //   );
-
-    // res.json("Succeed");
+    await pool.query("UPDATE tickets SET deleted=TRUE WHERE ticket_no=$1", [
+      ticket_no,
+    ]);
+    res.json("Successfully Process Ticket " + ticket_no);
   } catch (err) {
     console.log(err.message);
   }
@@ -439,7 +414,7 @@ app.delete("/modify", async (req, res) => {
 //   try {
 //     const { id } = req.params;
 //     const reserve = await pool.query(
-//       `SELECT * FROM ticket 
+//       `SELECT * FROM ticket
 //                                    WHERE id = $1`,
 //       [id]
 //     );
@@ -455,7 +430,7 @@ app.delete("/modify", async (req, res) => {
 //     const { id } = req.params;
 //     const { name } = req.body;
 //     const updateReserve = await pool.query(
-//       `UPDATE ticket SET name = $1 
+//       `UPDATE ticket SET name = $1
 //                                          WHERE id = $2`,
 //       [name, id]
 //     );
@@ -470,7 +445,7 @@ app.delete("/modify", async (req, res) => {
 //   try {
 //     const { id } = req.params;
 //     const deleteReserve = await pool.query(
-//       `DELETE FROM ticket 
+//       `DELETE FROM ticket
 //                                          WHERE id = $1`,
 //       [id]
 //     );
