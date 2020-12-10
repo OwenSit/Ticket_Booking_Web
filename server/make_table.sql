@@ -110,6 +110,7 @@ CREATE TABLE tickets(
     ticket_no char(13) NOT NULL,
     book_ref varchar(6) NOT NULL,
     passenger_id varchar(20) NOT NULL,
+    deleted BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (ticket_no),
     CONSTRAINT "tickets_book_ref_fkey" FOREIGN KEY (book_ref) REFERENCES bookings(book_ref),
     CONSTRAINT "tickets_passenger_id_fkey" FOREIGN KEY (passenger_id) REFERENCES passengers(passenger_id)
