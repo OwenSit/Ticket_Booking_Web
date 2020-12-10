@@ -68,7 +68,7 @@ app.post("/book", async (req, res) => {
     const book_info = req.body;
     // console.log(book_info);
     var first_passengerID = "";
-    var flight_id = book_info[0].flight_id;
+    // var flight_id = book_info[0].flight_id;
     var book_ref = randomValueHex(6);
     var boarding_gate = makeGateID();
     let EXist = await pool.query(
@@ -138,6 +138,7 @@ app.post("/book", async (req, res) => {
 
     // STEP TWO: create passenger entries for everybody in the passengers table:
     for (i = 0; i < book_info.length; i++) {
+      var flight_id = book_info[i].flight_id;
       var myDict = {};
       var passenger_id = randomValueHex(20);
       let EXIst = await pool.query(
@@ -344,6 +345,62 @@ app.put("/modify", async (req, res) => {
     );
     res.json(allReserve.rows);
     //res.json("halloe from server");
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+app.post("/modify", async (req, res) => {
+  try {
+    const custoInfo = req.body;
+    // console.log(custoInfo);
+    let passenger_id = custoInfo.passenger_id;
+    let passenger_name = custoInfo.passenger_name;
+    let email = custoInfo.email;
+    let phone = custoInfo.phone;
+    let age = custoInfo.age;
+
+    await pool.query(
+      "UPDATE passengers SET passenger_name=$1, email=$2, phone=$3, age=$4 WHERE passenger_id=$5",
+      [passenger_name, email, phone, age, passenger_id]
+    );
+
+    res.json("Succeed");
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+app.delete("/modify", async (req, res) => {
+  try {
+    const custoInfo = req.body;
+    console.log(custoInfo);
+    let passenger_id = custoInfo.passenger_id;
+    let passenger_name = custoInfo.passenger_name;
+    let email = custoInfo.email;
+    let phone = custoInfo.phone;
+    let age = custoInfo.age;
+    let book_ref = custoInfo.book_ref;
+
+    // delete transaction entry:
+    //   await pool.query(
+    //     "DELETE FROM transactions WHERE passenger_id=$1",
+    //     [passenger_id]
+    //   );
+
+    //   // delete passenger entry:
+    // await pool.query(
+    //   "DELETE FROM passengers WHERE passenger_id=$1",
+    //   [passenger_id]
+    // );
+
+    //   // delete ticket:
+    //   await pool.query(
+    //     "DELETE FROM tickets WHERE passenger_id=$1 AND ",
+    //     [passenger_id]
+    //   );
+
+    // res.json("Succeed");
   } catch (err) {
     console.log(err.message);
   }
