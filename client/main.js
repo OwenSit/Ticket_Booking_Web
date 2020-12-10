@@ -107,13 +107,12 @@ window.addEventListener("DOMContentLoaded", function () {
         //alert("Change action");
         if (this.checked) {
           //alert(this.value);
-          fPlan = this.value;
-
           //delete flightid_1 and flightid_2
           //alert("fPlan:"+fPlan);
           for (let i = 0; i <= fPlan; i++) {
             deletefid_ifExist("flightID_" + i.toString());
           }
+          fPlan = this.value;
           deletefid_ifExist("addFid");
           deletefid_ifExist("deleteFid");
 
