@@ -99,7 +99,7 @@ window.addEventListener('DOMContentLoaded', function(){
           fPlan = this.value;
           
           //delete flightid_1 and flightid_2
-          alert("fPlan:"+fPlan);
+          //alert("fPlan:"+fPlan);
           for(let i =0 ; i <= fPlan; i++){
             deletefid_ifExist("flightID_"+i.toString());
           }
@@ -301,24 +301,6 @@ function addForm() {
   inputnum++;
 }
 
-// async function BookFlight()//run when client press book button
-// {
-//   for(let i =0; i<fPlan; i++ )
-//   {
-//     //boolet proof the 4 digit of fid
-//     const fid = document.querySelector("#flightID_"+i).value;
-//     if(fid.length !=4 )
-//     {
-//       alert("[Flight "+i.toString()+"],Please fill 4 digit");
-//       return;
-//     }
-//   }
-//   //all fid inputs are 4 digits
-//   for(let index_flight =0; index_flight<fPlan; index_flight++ )
-//   {
-//     addcustomer(index_flighti); // one book refence 
-//   }
-// }
 
 
 function isInt(str) {
@@ -351,26 +333,22 @@ async function addcustomer() {
       var mv = document.querySelector("#movie_" + i).value;
       var ml = document.querySelector("#meal_" + i).value;
       const ag = document.querySelector("#age_" + i).value;
-      alert("index_flight: "+index_flight+" fid:"+ fid+" name: "+name);
+      //alert("index_flight: "+index_flight+" fid:"+ fid+" name: "+name);
 
 
-      if(card_no.length != 16 )
-      {
+      if(card_no.length != 16 ){
         alert("[Client "+i.toString()+"],  'Credit Card must be 16 digits'");
         return;
       }
-      if(fid == '' || card_no == '' || name == '' || pho == '' || em == '' || ag == '' )
-      {
+      if(fid == '' || card_no == '' || name == '' || pho == '' || em == '' || ag == '' ){
         alert("[Client "+i.toString()+"],  'Please Dont leave any blank'");
         return;
       }
-      if(isInt(fid) == false || isInt(card_no) == false ||  isInt(pho) == false ||isInt(ag) == false )
-      {
+      if(isInt(fid) == false || isInt(card_no) == false ||  isInt(pho) == false ||isInt(ag) == false ){
         alert("[Client "+i.toString()+"],  'Card Number, Flight Id, or Age is not a number'");
         return;
       }
-      if(em.indexOf('@') == -1 || em.indexOf('.') == -1)
-      {
+      if(em.indexOf('@') == -1 || em.indexOf('.') == -1){
         alert("[Client "+i.toString()+"],  'Type collect Email that inclue '@' and '.''");
         return;
       }
@@ -378,6 +356,14 @@ async function addcustomer() {
         discount = true;
         price = price * 0.8; //20% off
       }
+      if(mv == "Y"){
+        price = price + 10;
+      }
+      if(ml == "Y"){
+        price = price + 20;
+      }
+      price = price + 50*Number(bg) ; 
+
       var myDict = {
         flight_id: fid,
         name: name,
