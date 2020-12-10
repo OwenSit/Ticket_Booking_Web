@@ -1,3 +1,5 @@
+SET search_path TO MPA09A;
+
 DROP TABLE IF EXISTS bookings CASCADE;
 
 DROP TABLE IF EXISTS airports CASCADE;

@@ -337,6 +337,7 @@ app.post("/book", async (req, res) => {
 // flight info:
 app.get("/", async (req, res) => {
   try {
+    await pool.query(`SET search_path TO MPA09A`);
     const flightInfo = await pool.query(
       `SELECT * FROM flights WHERE seats_available>0 ORDER BY flight_id ASC`
     );

@@ -1,0 +1,1 @@
+SELECT * FROM passengers JOIN tickets ON tickets.passenger_id=passengers.passenger_id JOIN ticket_flights ON tickets.ticket_no=ticket_flights.ticket_no JOIN flights on ticket_flights.flight_id=flights.flight_id WHERE tickets.book_ref ='123456' AND tickets.deleted =FALSE;
