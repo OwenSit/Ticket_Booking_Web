@@ -421,7 +421,7 @@ async function addcustomer() {
     bookRef.innerHTML = bref;
     const todoTable = document.querySelector("#reserve-table");
     
-    // display all todos by modifying the HTML in "todo-table"
+    // display all info and flight by modifying the HTML 
     let tableHTML = "";
     for (i = 0; i < info.length; i++) {
       tableHTML += `<tr key=${info.ticket_no}>
