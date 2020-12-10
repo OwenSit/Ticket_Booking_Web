@@ -300,8 +300,33 @@ function addForm() {
   inputnum++;
 }
 
-async function BookFlight()//run when client press book button
-{
+// async function BookFlight()//run when client press book button
+// {
+//   for(let i =0; i<fPlan; i++ )
+//   {
+//     //boolet proof the 4 digit of fid
+//     const fid = document.querySelector("#flightID_"+i).value;
+//     if(fid.length !=4 )
+//     {
+//       alert("[Flight "+i.toString()+"],Please fill 4 digit");
+//       return;
+//     }
+//   }
+//   //all fid inputs are 4 digits
+//   for(let index_flight =0; index_flight<fPlan; index_flight++ )
+//   {
+//     addcustomer(index_flighti); // one book refence 
+//   }
+// }
+
+
+function isInt(str) {
+  return !isNaN(str) && Number.isInteger(parseFloat(str));
+}
+
+async function addcustomer() {
+  let book_info = [];
+  //alert("inputnum is " + inputnum);
   for(let i =0; i<fPlan; i++ )
   {
     //boolet proof the 4 digit of fid
@@ -312,78 +337,67 @@ async function BookFlight()//run when client press book button
       return;
     }
   }
-  //all fid inputs are 4 digits
-  for(let i =0; i<fPlan; i++ )
-  {
-    addcustomer(i);
-  }
-}
+  for(let index_flight =0; index_flight<fPlan; index_flight++ ){
+    for (let i = 0; i < inputnum; i++) {
+      let price = 1000;
+      var discount = false;
+      const fid = document.querySelector("#flightID_"+index_flight).value;
+      const card_no = document.querySelector("#card_no").value;
+      const name = document.querySelector("#name_" + i).value;
+      const pho = document.querySelector("#phone_" + i).value;
+      const em = document.querySelector("#email_" + i).value;
+      var bg = document.querySelector("#bag_" + i).value;
+      var mv = document.querySelector("#movie_" + i).value;
+      var ml = document.querySelector("#meal_" + i).value;
+      const ag = document.querySelector("#age_" + i).value;
+      alert("index_flight: "+index_flight+" fid:"+ fid+" name: "+name);
 
 
-function isInt(str) {
-  return !isNaN(str) && Number.isInteger(parseFloat(str));
-}
-
-async function addcustomer(index_flight) {
-  let book_info = [];
-  //alert("inputnum is " + inputnum);
-  for (let i = 0; i < inputnum; i++) {
-    let price = 1000;
-    var discount = false;
-    const fid = document.querySelector("#flightID_"+index_flight).value;
-    const card_no = document.querySelector("#card_no").value;
-    const name = document.querySelector("#name_" + i).value;
-    const pho = document.querySelector("#phone_" + i).value;
-    const em = document.querySelector("#email_" + i).value;
-    var bg = document.querySelector("#bag_" + i).value;
-    var mv = document.querySelector("#movie_" + i).value;
-    var ml = document.querySelector("#meal_" + i).value;
-    const ag = document.querySelector("#age_" + i).value;
-    //alert("index_flight: "+index_flight+" fid:"+ fid+" name: "+name);
-
-
-    if(card_no.length != 16 )
-    {
-      alert("[Client "+i.toString()+"],  'Credit Card must be 16 digits'");
-      return;
+      if(card_no.length != 16 )
+      {
+        alert("[Client "+i.toString()+"],  'Credit Card must be 16 digits'");
+        return;
+      }
+      if(fid == '' || card_no == '' || name == '' || pho == '' || em == '' || ag == '' )
+      {
+        alert("[Client "+i.toString()+"],  'Please Dont leave any blank'");
+        return;
+      }
+      if(isInt(fid) == false || isInt(card_no) == false ||  isInt(pho) == false ||isInt(ag) == false )
+      {
+        alert("[Client "+i.toString()+"],  'Card Number, Flight Id, or Age is not a number'");
+        return;
+      }
+      if(em.indexOf('@') == -1 || em.indexOf('.') == -1)
+      {
+        alert("[Client "+i.toString()+"],  'Type collect Email that inclue '@' and '.''");
+        return;
+      }
+      if (ag < 18 || ag > 56) {
+        discount = true;
+        price = price * 0.8; //20% off
+      }
+      var myDict = {
+        flight_id: fid,
+        name: name,
+        phone: pho,
+        email: em,
+        checked_bag: bg,
+        movie: mv,
+        meal: ml,
+        age: ag,
+        discount: discount,
+        amount: price,
+        card_no: card_no,
+      };
+      // console.log(myDict);
+      book_info.push(myDict);
     }
-    if(fid == '' || card_no == '' || name == '' || pho == '' || em == '' || ag == '' )
-    {
-      alert("[Client "+i.toString()+"],  'Please Dont leave any blank'");
-      return;
-    }
-    if(isInt(fid) == false || isInt(card_no) == false ||  isInt(pho) == false ||isInt(ag) == false )
-    {
-      alert("[Client "+i.toString()+"],  'Card Number, Flight Id, or Age is not a number'");
-      return;
-    }
-    if(em.indexOf('@') == -1 || em.indexOf('.') == -1)
-    {
-      alert("[Client "+i.toString()+"],  'Type collect Email that inclue '@' and '.''");
-      return;
-    }
-    if (ag < 18 || ag > 56) {
-      discount = true;
-      price = price * 0.8; //20% off
-    }
-    var myDict = {
-      flight_id: fid,
-      name: name,
-      phone: pho,
-      email: em,
-      checked_bag: bg,
-      movie: mv,
-      meal: ml,
-      age: ag,
-      discount: discount,
-      amount: price,
-      card_no: card_no,
-    };
-    book_info.push(myDict);
   }
   try {
     // insert new name to "http://localhost:5000/book", with "POST" method
     const body = book_info;
+    console.log(body);
     const response = await fetch("http://localhost:5000/book", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
