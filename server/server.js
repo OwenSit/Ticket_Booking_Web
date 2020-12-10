@@ -80,6 +80,7 @@ app.post("/book", async (req, res) => {
     // STEP ONE: generate a new entry in the bookings table:
     const book_info = req.body;
     // console.log(book_info);
+    var pass_ids = [];
     var first_passengerID = "";
     // var flight_id = book_info[0].flight_id;
     var book_ref = randomValueHex(6);
@@ -149,11 +150,13 @@ app.post("/book", async (req, res) => {
       [book_ref, total_amount]
     );
 
+    
     // STEP TWO: create passenger entries for everybody in the passengers table:
     for (i = 0; i < book_info.length; i++) {
       var flight_id = book_info[i].flight_id;
       var myDict = {};
       var passenger_id = randomValueHex(20);
+      
       let EXIst = await pool.query(
         "SELECT passenger_id FROM passengers where passenger_id=$1",
         [passenger_id]
@@ -176,10 +179,22 @@ app.post("/book", async (req, res) => {
       let email = await book_info[i].email;
       let phone = await book_info[i].phone;
       let age = await book_info[i].age;
-      await pool.query(
-        "INSERT INTO passengers (passenger_id, book_ref, passenger_name, email, phone, age) VALUES($1,$2,$3,$4,$5,$6)",
-        [passenger_id, book_ref, passenger_name, email, phone, age]
-      );
+
+      
+      if(i < book_info[0].party){
+        pass_ids[i] = passenger_id;
+        await pool.query(
+          "INSERT INTO passengers (passenger_id, book_ref, passenger_name, email, phone, age) VALUES($1,$2,$3,$4,$5,$6)",
+          [passenger_id, book_ref, passenger_name, email, phone, age]
+        );
+      }
+      else{        
+        num = i;
+        while(num >= book_info[0].party){
+          num = num - book_info[0].party;
+        }       
+        passenger_id = pass_ids[num];      
+      }
 
       // inserting into tickets table:
       var ticket_no = randomValueHex(13);

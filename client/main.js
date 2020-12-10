@@ -392,6 +392,7 @@ async function addcustomer() {
         discount: discount,
         amount: price,
         card_no: card_no,
+        party: inputnum
       };
       // console.log(myDict);
       book_info.push(myDict);
@@ -400,6 +401,7 @@ async function addcustomer() {
   try {
     // insert new name to "http://localhost:5000/book", with "POST" method
     const body = book_info;
+    //const flight_num = fPlan;
     console.log(body);
     const response = await fetch("http://localhost:5000/book", {
       method: "POST",
