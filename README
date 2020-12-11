@@ -3,44 +3,50 @@
 
 Group number: MPA09A
 
+
+Before you run our program:
+1. Please make sure you have node.js and npm installed 
+2. Please direct to the hw4 folder, and look for a file name password.json (if the file does not exist, please find it under the /server folder). Update the name and password variables with your Linux account name and credential.
+
+
 Run the program:
-1. Please run the server by command 'node server.js' in repository 'server'
-2. Please run client.html using live server 
-3. To go modify.html(checking or modify ticket) from client.html, Press 'CUSTOMER & CLERK Check & Edit your Booking Info'
-4. To go client.html(booking ticket) from modify.html, Press 'Booking new ticket' 
+1. Please lanuch the PowerShell, change the directory into the server folder, do a "npm install", and then run the server by command 'node server.js' in repository 'server'
+2. When the server is running in the background, please direct to the hw4/client folder in the File Explorer. Now, simply open the client.js file
+3. When you get into our main page, please first click on the "Refresh DB!" button, as this will initialized our database 
+4. To check in or modify the tickets, please press 'CUSTOMER & CLERK Check In & Edit your Booking Info' button
+5. To book ticket, please stay in the main page and go through the following instructions 
 
 
 Reservation:
 1. Select your flight Plan - OneWay, RoundTrip, or MultipleFlight
    -[OneWay] : only one flight ID required
-   -[RoundTrip] : Two flight ID required
-   -[MultipleFlight] : one to as many as flight you wish to book (Press Increase Flight to add flight, Press Decrese Flight to drop a flight)
-2. Type 4 digits flight ID corresponding to flight schedule appear above
-3. Type 16 digits Credit Card infomation 
-4. Type fisrt passenger's Name, Phon number(integer), email(required '@' and '.'), and age(integer).
-5. Select number of bags, movie and meal option 
-6. Add members flying with if desire to, follow instruction 4-5
-7. Once double check all infomation filled, press 'Book Ticket'
-8. Your booking information will appear, REMEMBER to keep your Booking Reference
+   -[RoundTrip] : Two flight ID required, please select the returning flight yourself :) Sorry!
+   -[MultipleFlight] : one to as many as flight you wish to book (Press Increase Flight to add flight, Press Decrese Flight to drop a flight) NEW FEATURE!!!
+2. Input the 4 digits flight ID corresponding to flight schedule appear above
+3. Input the 16 digits Credit Card infomation 
+4. Input the passenger's Name, Phone number(integer), email(required '@' and '.'), and age(integer)
+5. Select number of checked bags, movie and meal option 
+6. Add addition members if not travelling alone, then repeat instruction 4-5
+7. Once double check all inputted infomation, continue and press 'Book Ticket'
+8. Your booking information will generate at the bottom, REMEMBER to mark down your Booking Reference
 
 
-Modify:
-1. Type your Booking Reference(6 digits) in txt box
-2. Press 'Show my booking info' and your booking info appear
-    -[Edit]: You are allowed to edit Name, phone, email, and age
+Modify / Check-in / Cancel:
+1. Type your Booking Reference(6 digits) in the text box
+2. Press 'Show my booking info' and your booking info will appear
+    -[Edit]: You are allowed to edit your Name, phone, email, and age
     1. Press 'Edit' of the person you wish to make change
-    2. Change the info mation and Press 'Save Changes'
-    3. Type your Booking reference again and you'll see the changes made
+    2. Change the infomation and Press 'Save Changes'
+    3. Type your Booking reference again to see the updated info
     -[Delete]:
-    1. Press 'Delete' of the person you wich to delete
-    2. Type your Booking reference again and you'll see the changes made
+    1. Press 'Delete' of the flight you wich to delete
+    2. Type your Booking reference again and you'll see the changes 
     -[CheckIn]:
-    1. Press 'Check In' of the person you wich to Check in
-    2. Type your Booking reference again and you'll see the changes made
+    1. Press 'Check In' of the flight you wich to Check in
+    2. Type your Booking reference again and you'll see the changes 
 
 Refresh Data Base:
-You can refresh the database by press 'Refresh DB'
-All the booking info will be deleted
+You can reset the database by press 'Refresh DB' use wit cautions because all of your booking info will be deleted
 
 Logout:
 You can refresh the page by pressing 'Log Out'
