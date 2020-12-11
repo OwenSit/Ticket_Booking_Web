@@ -1,4 +1,4 @@
-SET search_path TO MPA09A, public;
+SET search_path TO MPA09A;
 
 DROP TABLE IF EXISTS bookings CASCADE;
 
