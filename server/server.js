@@ -62,6 +62,7 @@ app.use(express.json()); //req.body
 app.get("/refreshDB", async (req, res) => {
   try {
     var sql = fs.readFileSync("make_table.sql").toString();
+    await pool.query("SET search_path TO MPA09A");
     const comitRefresh = await pool.query(sql);
     //console.log(sql);
     res.json("refresh successfully!");
@@ -83,8 +84,9 @@ app.post("/book", async (req, res) => {
     // var flight_id = book_info[0].flight_id;
     var book_ref = randomValueHex(6);
     var boarding_gate = makeGateID();
+    await pool.query("SET search_path TO MPA09A");
     let EXist = await pool.query(
-      "SELECT boarding_gate FROM boarding_info where boarding_gate=$1",
+      "SELECT boarding_gate FROM MPA09A.boarding_info where boarding_gate=$1",
       [boarding_gate]
     );
     while ((await EXist.rows[0]) != null) {
@@ -337,7 +339,8 @@ app.post("/book", async (req, res) => {
 // flight info:
 app.get("/", async (req, res) => {
   try {
-    await pool.query(`SET search_path TO MPA09A`);
+    // await pool.query(`SET search_path TO MPA09A`);
+    await pool.query("SET search_path TO MPA09A");
     const flightInfo = await pool.query(
       `SELECT * FROM flights WHERE seats_available>0 ORDER BY flight_id ASC`
     );
@@ -362,7 +365,7 @@ app.put("/modify", async (req, res) => {
   try {
     const { bref } = req.body;
     console.log(bref);
-
+    await pool.query("SET search_path TO MPA09A");
     const allReserve = await pool.query(
       "SELECT * FROM passengers JOIN tickets ON tickets.passenger_id=passengers.passenger_id JOIN ticket_flights ON tickets.ticket_no=ticket_flights.ticket_no JOIN flights on ticket_flights.flight_id=flights.flight_id WHERE tickets.book_ref =$1 AND tickets.deleted =FALSE ",
       [bref]
@@ -384,7 +387,7 @@ app.post("/modify", async (req, res) => {
     let email = custoInfo.email;
     let phone = custoInfo.phone;
     let age = custoInfo.age;
-
+    await pool.query("SET search_path TO MPA09A");
     await pool.query(
       "UPDATE passengers SET passenger_name=$1, email=$2, phone=$3, age=$4 WHERE passenger_id=$5",
       [passenger_name, email, phone, age, passenger_id]
@@ -401,6 +404,7 @@ app.delete("/modify", async (req, res) => {
     const custoInfo = req.body;
     ticket_no = custoInfo.ticket_no;
     console.log(custoInfo);
+    await pool.query("SET search_path TO MPA09A");
     await pool.query("UPDATE tickets SET deleted=TRUE WHERE ticket_no=$1", [
       ticket_no,
     ]);
